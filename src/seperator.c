@@ -28,7 +28,6 @@ t_token	*ft_prompt_seperator(char *prompt)
 	return (root);
 }
 
-
 int	ft_create_nodes(t_token **root, char *prompt, int start, int i)
 {
 	char	*content;

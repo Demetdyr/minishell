@@ -27,3 +27,14 @@ int	ft_pass_in_quote(char *prompt, int *i)
 	}
 	return (0);
 }
+
+char	ft_get_in_quote(char old, char value)
+{
+	if (old == '"' && value == '"')
+		old = 0;
+	else if (old == '\'' && value == '\'')
+		old = 0;
+	else if (value == '\'' || value == '"')
+		old = value;
+	return (old);
+}

@@ -60,6 +60,25 @@ typedef struct s_syn
 //minishell.c
 char			**env_copy(char **env);
 
+//dollar_case.c
+void			ft_dollar_case(t_token **root, t_shell *shell);
+int				ft_special_dollar_case(char **data, int start, int i,
+					t_shell *shell);
+void			ft_number_dollar_case(char **data, int start, int i);
+int				ft_normal_dollar_case(char **data, int start, int i,
+					t_shell *shell);
+
+//dollar_util.c
+bool			ft_is_valid_dollar(char *data, int i);
+bool			ft_is_digit(char c);
+bool			ft_is_alpha(char c);
+bool			ft_is_alnum_underscore(char c);
+
+//dollar.c
+void			ft_get_dollar_values(char **value, t_shell *shell,
+					bool *has_dollar);
+
+
 //free_utils.c
 void			ft_free_shell_single(t_shell **shell);
 
@@ -69,6 +88,9 @@ void			ft_free_all_tokens(t_token **token);
 void			ft_free_token_lst(t_token ***token_lst);
 void			ft_free_shell(t_shell **shell);
 void			ft_free_prompt(t_shell *shell);
+
+//ft_itoa.c
+char			*ft_itoa(int n);
 
 //lexer.c
 bool			ft_is_str_all_space(const char *str);
@@ -95,6 +117,8 @@ char			ft_get_in_quote(char old, char value);
 int				ft_create_nodes(t_token **root, char *prompt, int start, int i);
 int				ft_pass_words(char *prompt, int *i);
 t_token			*ft_prompt_seperator(char *prompt);
+void			ft_insert_dollar_nodes(t_token **token);
+void			ft_insert_token(t_token **token, t_token *temp, t_token *sub_nodes);
 
 //syntax_utils.c
 bool			ft_is_space(char c);
@@ -124,7 +148,8 @@ void			ft_token_append_meta_init(t_token_append_meta *md,
 int				ft_token_append_str(t_token **token, int start, int i);
 
 //token_utils.c
-t_token			*ft_token_get_root(t_token *node);;
+t_token			*ft_token_get_root(t_token *node);
+t_token			*ft_token_get_last(t_token *node);
 
 //token.c
 t_token			*ft_new_token(char *value, t_token_type type);

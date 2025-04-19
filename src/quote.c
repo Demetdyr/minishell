@@ -38,3 +38,63 @@ char	ft_get_in_quote(char old, char value)
 		old = value;
 	return (old);
 }
+
+bool	ft_is_unnecessary_quote(int *quote, char value)
+{
+	if (*quote)
+	{
+		if (value == *quote)
+		{
+			*quote = 0;
+			return (true);
+		}
+	}
+	else
+	{
+		if (value == '"')
+		{
+			*quote = '"';
+			return (true);
+		}
+		else if (value == '\'')
+		{
+			*quote = '\'';
+			return (true);
+		}
+	}
+	return (false);
+}
+int	ft_count_unnecessary_quotes(char *data)
+{
+	int	quote;
+	int	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	quote = 0;
+	while (data[i])
+	{
+		if (data[i] && ft_is_unnecessary_quote(&quote, data[i]))
+			counter++;
+		i++;
+	}
+	return (counter);
+}
+
+bool	ft_has_unnecessary_quotes(char *value)
+{
+	int	quote;
+	int	i;
+
+	i = 0;
+	quote = 0;
+	while (value[i])
+	{
+		ft_is_unnecessary_quote(&quote, value[i]);
+		if (value[i] && ft_is_unnecessary_quote(&quote, value[i]))
+			return (true);
+		i++;
+	}
+	return (false);
+}

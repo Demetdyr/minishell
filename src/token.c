@@ -57,3 +57,39 @@ void	ft_token_to_prev(t_token **token, t_token *new)
 	temp->next = new;
 	new->prev = temp;
 }
+
+bool	ft_is_token_just_meta(t_token **token)
+{
+	if (!token && !*token && !(*token)->value)
+		return (false);
+	if ((*token)->value[0] == '>' && (*token)->value[1] == '>'
+		&& (*token)->value[2] == '\0')
+		(*token)->type = RED_RR;
+	else if ((*token)->value[0] == '<' && (*token)->value[1] == '<'
+		&& (*token)->value[2] == '\0')
+		(*token)->type = RED_LL;
+	else if ((*token)->value[0] == '|' && (*token)->value[1] == '\0')
+		(*token)->type = PIPE;
+	else if ((*token)->value[0] == '<' && (*token)->value[1] == '\0')
+		(*token)->type = RED_L;
+	else if ((*token)->value[0] == '>' && (*token)->value[1] == '\0')
+		(*token)->type = RED_R;
+	else
+		return (false);
+	return (true);
+}
+
+void	ft_free_old_token(t_token **temp, t_token *root)
+{
+	t_token	*old_node;
+
+	if (!temp || !*temp || !root)
+		return ;
+	old_node = *temp;
+	if ((*temp)->prev)
+		(*temp)->prev->next = (*temp)->next;
+	if ((*temp)->next)
+		(*temp)->next->prev = (*temp)->prev;
+	*temp = (*temp)->next;
+	ft_free_token(&old_node);
+}

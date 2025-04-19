@@ -47,6 +47,7 @@ void	ft_free_shell(t_shell **shell)
 	(*shell)->prompt = NULL;
 	ft_free_token_lst(&(*shell)->token_lst);
 }
+
 void	ft_free_prompt(t_shell *shell)
 {
 	if (shell)

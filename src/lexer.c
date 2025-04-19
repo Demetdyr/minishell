@@ -44,6 +44,7 @@ t_token	**ft_lexer(t_shell *shell)
 		return (ft_free_all_tokens(&root), ft_free_shell_single(&shell), NULL);
 	root = ft_label_meta_chars(&root);
 	ft_dollar_case(&root, shell);
-	//continue
+	ft_unnecessary_quotes_case(root);
+	//continue	
 	return (token_lst);
 }

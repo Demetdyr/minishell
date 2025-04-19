@@ -109,9 +109,16 @@ void			fdprintln(int fd, const char *s);
 void			errprint(const char *str);
 void			errprintln(const char *str);
 
+//quote_utils.c
+void			ft_unnecessary_quotes_case(t_token *root);
+
 //quote.c
 int				ft_pass_in_quote(char *prompt, int *i);
 char			ft_get_in_quote(char old, char value);
+bool			ft_is_unnecessary_quote(int *quote, char value);
+int				ft_count_unnecessary_quotes(char *data);
+bool			ft_has_unnecessary_quotes(char *value);
+
 
 //seperator.c
 int				ft_create_nodes(t_token **root, char *prompt, int start, int i);

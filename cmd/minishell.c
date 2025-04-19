@@ -48,13 +48,35 @@ static t_shell	*shell_init(char **argv, char **env)
 	return (free_shell(&shell), NULL);
 	shell->argv = argv;
 	shell->prompt = NULL;
+	shell->err = 0;
 	return (shell);
+}
+
+static void	ft_routine(t_shell *shell)
+{
+	while (1)
+	{
+		//shell->prompt = readline("minishell> ");
+		//if (!shell->prompt)
+		//	break ;
+		//add_history(shell->prompt);
+		shell->err = ft_syntax_check(shell);
+		if (shell->err)
+		{
+			ft_print_syntax_err(shell->err, shell);
+			ft_free_prompt(shell);
+			continue ;
+		}
+		shell->err = 0;
+	}
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	(void)argc;
 	t_shell	*shell;
 
 	shell = shell_init(argv, env);
+	if (!shell)
+		return (argc);
+	ft_routine(shell);
 }

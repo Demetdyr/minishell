@@ -55,3 +55,49 @@ int	ft_pass_words(char *prompt, int *i)
 		(*i)++;
 	return (0);
 }
+
+void	ft_insert_dollar_nodes(t_token **token)
+{
+	t_token	*sub_nodes;
+	t_token	*temp;
+
+	if (!token || !*token)
+		return ;
+	temp = *token;
+	sub_nodes = ft_prompt_seperator(temp->value);
+	if (!sub_nodes)
+	{
+		if (temp->prev)
+		{
+			temp->prev->next = temp->next;
+			if (temp->next)
+				temp->next->prev = temp->prev;
+		}
+		else
+			*token = temp->next;
+		ft_free_token(&temp);
+		return ;
+	}
+	ft_insert_token(token, temp, sub_nodes);
+}
+
+void	ft_insert_token(t_token **token, t_token *temp, t_token *sub_nodes)
+{
+	t_token	*sub_last;
+
+	if (temp->prev)
+	{
+		temp->prev->next = sub_nodes;
+		sub_nodes->prev = temp->prev;
+	}
+	else
+		*token = sub_nodes;
+	sub_last = ft_token_get_last(sub_nodes);
+	if (!sub_last)
+		return ;
+	if (temp->next)
+		sub_last->next = temp->next;
+	if (temp->next)
+		temp->next->prev = sub_last;
+	ft_free_token(&temp);
+}

@@ -61,6 +61,9 @@ void	ft_free_token_lst(t_token ***token_lst);
 void	ft_free_shell(t_shell **shell);
 void	ft_free_prompt(t_shell *shell);
 
+//free_utils.c
+void	ft_free_shell_single(t_shell **shell);
+
 //print.c
 void	fdprint(int fd, const char *s);
 void	fdprintln(int fd, const char *s);
@@ -80,6 +83,14 @@ int		ft_handle_pipe(t_syn *st);
 int		ft_handle_redir(t_syn *st, const char *p, int *i);
 
 //token.c
+
+t_token	*ft_new_token(char *value, t_token_type type);
+t_token	*ft_token_to_last(t_token *token, t_token *new);
+void	ft_token_to_prev(t_token **token, t_token *new);
+
+
+//quote.c
+int		ft_pass_in_quote(char *prompt, int *i);
 
 
 #endif

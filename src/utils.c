@@ -34,3 +34,29 @@ char	*ft_strdup(const char *src)
 	str[i] = '\0';
 	return (str);
 }
+
+char	*ft_substr(char const *s, int start, int len)
+{
+	char	*buf;
+	int		i;
+	int		slen;
+
+	if (!s)
+		return (NULL);
+	slen = ft_strlen(s);
+	if (start >= slen)
+		return (ft_strdup(""));
+	if (len > slen - start)
+		len = slen - start;
+	buf = (char *)malloc((len + 1) * sizeof(char));
+	if (buf == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		buf[i] = s[start + i];
+		i++;
+	}
+	buf[i] = '\0';
+	return (buf);
+}

@@ -68,6 +68,7 @@ static void	ft_routine(t_shell *shell)
 			continue ;
 		}
 		shell->err = 0;
+		shell->token_lst = ft_lexer(shell);
 	}
 }
 

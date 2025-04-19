@@ -31,6 +31,15 @@ typedef struct s_token_append_meta
 	int				start;
 }					t_token_append_meta;
 
+typedef struct s_token_sep_md
+{
+	t_token			**token_lst;
+	t_token			*iter;
+	t_token			*temp;
+	t_token			*temp_root;
+	int				i;
+}					t_token_sep_md;
+
 typedef struct s_token
 {
 	char			*value;
@@ -157,6 +166,9 @@ int				ft_token_append_str(t_token **token, int start, int i);
 //token_utils.c
 t_token			*ft_token_get_root(t_token *node);
 t_token			*ft_token_get_last(t_token *node);
+int				ft_pipe_count(t_token *token);
+bool			ft_token_sep_md_init(t_token_sep_md *md, t_token *token);
+t_token			**ft_separate_by_pipe(t_token *token);
 
 //token.c
 t_token			*ft_new_token(char *value, t_token_type type);

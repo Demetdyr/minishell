@@ -2,6 +2,11 @@
 # define MINISHELL
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdlib.h>
+
 
 #define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
 #define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
@@ -31,6 +36,14 @@ typedef struct s_token_append_meta
 	int				start;
 }					t_token_append_meta;
 
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
+
 typedef struct s_token_sep_md
 {
 	t_token			**token_lst;
@@ -39,14 +52,6 @@ typedef struct s_token_sep_md
 	t_token			*temp_root;
 	int				i;
 }					t_token_sep_md;
-
-typedef struct s_token
-{
-	char			*value;
-	t_token_type	type;
-	struct s_token	*next;
-	struct s_token	*prev;
-}	t_token;
 
 typedef struct s_shell
 {
@@ -84,9 +89,11 @@ bool			ft_is_alpha(char c);
 bool			ft_is_alnum_underscore(char c);
 
 //dollar.c
-void			ft_get_dollar_values(char **value, t_shell *shell,
+char			*ft_get_dollar_value(char *key, t_shell *shell);
+void			ft_get_dollar_key_values(char **value, t_shell *shell,
 					bool *has_dollar);
-
+char			*ft_create_data_from_dollar(char *data, char *value,
+					int start, int index);
 
 //free_utils.c
 void			ft_free_shell_single(t_shell **shell);
@@ -186,5 +193,7 @@ void			ft_free_old_token(t_token **temp, t_token *root);
 char			*ft_strdup(const char *src);
 int				ft_strlen(const char *s);
 char			*ft_substr(char const *s, int start, int len);
+int				ft_strncmp(const char *s1, const char *s2, int n);
+
 
 # endif

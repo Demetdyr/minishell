@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-static int	ft_handle_redir(t_syn *st, const char *s, int *i)
+int	ft_handle_redir(t_syn *st, const char *s, int *i)
 {
 	int	dbl;
 
@@ -21,7 +21,7 @@ static int	ft_handle_redir(t_syn *st, const char *s, int *i)
 	return (0);
 }
 
-static t_syn	ft_syntax_init(t_syn *st)
+t_syn	ft_syntax_init(t_syn *st)
 {
 	st->pipe_expected = false;
 	st->in_quote = 0;
@@ -30,7 +30,7 @@ static t_syn	ft_syntax_init(t_syn *st)
 	return (*st);
 }
 
-static int	ft_analyze_char(const char *p, int *i, t_syn *st)
+int	ft_analyze_char(const char *p, int *i, t_syn *st)
 {
 	if (p[*i] == '\'' || p[*i] == '"')
 	{

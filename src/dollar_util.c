@@ -2,8 +2,8 @@
 
 bool	ft_is_valid_dollar(char *data, int i)
 {
-	return (data[i] == '$' && (is_alpha(data[i + 1]) || data[i + 1] == '_'
-			|| is_digit(data[i + 1]) || data[i + 1] == '?'));
+	return (data[i] == '$' && (ft_is_alpha(data[i + 1]) || data[i + 1] == '_'
+			|| ft_is_digit(data[i + 1]) || data[i + 1] == '?'));
 }
 
 bool	ft_is_digit(char c)
@@ -18,5 +18,5 @@ bool	ft_is_alpha(char c)
 
 bool	ft_is_alnum_underscore(char c)
 {
-	return (is_digit(c) || is_alpha(c) || c == '_');
+	return (ft_is_digit(c) || ft_is_alpha(c) || c == '_');
 }

@@ -7,7 +7,7 @@ bool	ft_is_space(char c)
 
 void	ft_skip_spaces(const char *s, int *i)
 {
-	while (s[*i] && is_space(s[*i]))
+	while (s[*i] && ft_is_space(s[*i]))
 		(*i)++;
 }
 

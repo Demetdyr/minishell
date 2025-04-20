@@ -1,7 +1,7 @@
 #include "../inc/minishell.h"
 #include <stdlib.h>
 
-static void	free_env(char **copy_env, int i)
+static void	ft_free_env(char **copy_env, int i)
 {
 	if (!copy_env)
 		return ;
@@ -29,7 +29,7 @@ char	**env_copy(char **env)
 	{
 		env_copy[i] = ft_strdup(env[i]);
 		if (!env_copy[i])
-			return (free_env(env_copy, i), NULL);
+			return (ft_free_env(env_copy, i), NULL);
 		i++;
 	}
 	env_copy[i] = NULL;
@@ -45,7 +45,7 @@ static t_shell	*shell_init(char **argv, char **env)
 		return (NULL);
 	shell->env = env_copy(env);
 	if (!shell->env)
-	return (free_shell(&shell), NULL);
+	return (ft_free_shell(&shell), NULL);
 	shell->argv = argv;
 	shell->prompt = NULL;
 	shell->err = 0;
@@ -56,10 +56,10 @@ static void	ft_routine(t_shell *shell)
 {
 	while (1)
 	{
-		//shell->prompt = readline("minishell> ");
-		//if (!shell->prompt)
-		//	break ;
-		//add_history(shell->prompt);
+		shell->prompt = readline("minishell> ");
+		if (!shell->prompt)
+			break ;
+		add_history(shell->prompt);
 		shell->err = ft_syntax_check(shell);
 		if (shell->err)
 		{

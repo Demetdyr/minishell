@@ -1,4 +1,43 @@
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
-PROG			= minishell
-SRCS			= minishell.c
+PROGRAM			= minishell
+SRC_DIR			= src
+CMD_DIR			= cmd
+BIN_DIR			= bin
+INC_DIR			= -Iinc
+OBJ_DIR			= build
+NAME			= $(BIN_DIR)/$(PROGRAM)
+SRCS			=	src/dollar_case.c src/dollar_util.c src/dollar.c \
+					src/free_utils.c src/free.c src/ft_itoa.c src/lexer.c src/meta_chars.c \
+					src/print.c src/quote_utils.c src/quote.c src/seperator.c src/syntax_utils.c \
+					src/syntax.c src/token_append_utils.c src/token_utils.c src/token.c src/utils.c \
+					src/token_append.c src/token_types.c
+
+OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+CMD				= $(CMD_DIR)/$(PROGRAM).c
+RM				= rm -rf
+
+all:
+	@mkdir -p bin
+	@$(MAKE) $(NAME)
+
+$(NAME): $(CMD) $(OBJS)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INC_DIR) -lreadline $(CMD) $(OBJS) -o $(NAME)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
+
+clean:
+	$(RM) $(OBJS)
+	$(RM) $(OBJ_DIR) & wait
+	$(RM) $(BIN_DIR) & wait
+
+fclean: clean
+	$(RM) $(NAME) & wait
+
+re: fclean
+	$(MAKE) all
+
+.PHONY: all clean fclean re

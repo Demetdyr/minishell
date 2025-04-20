@@ -40,7 +40,7 @@ t_token	**ft_lexer(t_shell *shell)
 	root = ft_prompt_seperator(shell->prompt);
 	if (!root)
 		return (NULL);
-	if (token_is_all_space(root))
+	if (ft_is_token_all_space(root))
 		return (ft_free_all_tokens(&root), ft_free_shell_single(&shell), NULL);
 	root = ft_label_meta_chars(&root);
 	ft_dollar_case(&root, shell);

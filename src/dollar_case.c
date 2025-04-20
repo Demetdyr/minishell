@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+#include <stdio.h>
 
 void	ft_dollar_case(t_token **root, t_shell *shell)
 {
@@ -14,7 +15,7 @@ void	ft_dollar_case(t_token **root, t_shell *shell)
 		has_dollar = false;
 		temp = iter;
 		iter = iter->next;
-		ft_get_dollar_values(&temp->value, shell, &has_dollar);
+		ft_get_dollar_key_values(&temp->value, shell, &has_dollar);
 		if (has_dollar)
 		{
 			if (!temp->prev)
@@ -36,7 +37,7 @@ int	ft_special_dollar_case(char **data, int start, int i,
 	if ((*data)[i] == '?')
 	{
 		value = ft_itoa(shell->status);
-		if (value < 0)
+		if (!value)
 			return (i);
 	}
 	else

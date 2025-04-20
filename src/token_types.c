@@ -14,7 +14,7 @@ void	ft_token_lst_types(t_token **token_lst)
 	}
 }
 
-static void	ft__token_types_file(t_token *token)
+void	ft__token_types_file(t_token *token)
 {
 	t_token	*temp;
 

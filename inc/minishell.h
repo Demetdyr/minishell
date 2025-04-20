@@ -163,6 +163,11 @@ void			ft_token_append_meta_init(t_token_append_meta *md,
 					t_token **token);
 int				ft_token_append_str(t_token **token, int start, int i);
 
+//token_types.c
+void			ft_token_lst_types(t_token **token_lst);
+void			ft__token_types(t_token *token);
+void			ft__token_types_file(t_token *token);
+
 //token_utils.c
 t_token			*ft_token_get_root(t_token *node);
 t_token			*ft_token_get_last(t_token *node);

@@ -69,6 +69,12 @@ static void	ft_routine(t_shell *shell)
 		}
 		shell->err = 0;
 		shell->token_lst = ft_lexer(shell);
+		if (!shell->token_lst)
+		{
+			free(shell->prompt);
+			continue ;
+		}
+		//executer
 	}
 }
 
@@ -80,4 +86,5 @@ int	main(int argc, char **argv, char **env)
 	if (!shell)
 		return (argc);
 	ft_routine(shell);
+	return (ft_free_shell(&shell), shell->status);
 }

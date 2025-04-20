@@ -48,6 +48,6 @@ t_token	**ft_lexer(t_shell *shell)
 	token_lst = ft_separate_by_pipe(root);
 	if (!token_lst)
 		return (NULL);
-	//continue	
+	ft_token_lst_types(token_lst);
 	return (token_lst);
 }

@@ -7,6 +7,11 @@
 #include <readline/history.h>
 #include <stdlib.h>
 
+# define IN_HEREDOC 2
+# define AFTER_HEREDOC 3
+# define IN_CMD 4
+# define AFTER_CMD 5
+
 
 #define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
 #define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
@@ -195,5 +200,7 @@ int				ft_strlen(const char *s);
 char			*ft_substr(char const *s, int start, int len);
 int				ft_strncmp(const char *s1, const char *s2, int n);
 
+// signal.c
+void			ft_check_signal(void);
 
 # endif

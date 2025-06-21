@@ -47,7 +47,7 @@ static t_shell	*shell_init(char **argv, char **env)
 		return (NULL);
 	shell->env = env_copy(env);
 	if (!shell->env)
-	return (ft_free_shell(&shell), NULL);
+		return (ft_free_shell(&shell), NULL);
 	shell->argv = argv;
 	shell->prompt = NULL;
 	shell->err = 0;

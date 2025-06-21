@@ -84,7 +84,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_shell	*shell;
 
-	ft_check_signals();
+	ft_check_signal();
 	shell = shell_init(argv, env);
 	if (!shell)
 		return (argc);

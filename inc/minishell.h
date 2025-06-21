@@ -12,6 +12,15 @@
 # define IN_CMD 4
 # define AFTER_CMD 5
 
+# define STDIN_FILENO 0
+
+# ifndef _POSIX_VDISABLE
+# define _POSIX_VDISABLE 0
+# endif
+
+
+extern int	g_sig;
+
 
 #define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
 #define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"

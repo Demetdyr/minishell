@@ -51,6 +51,9 @@ static t_shell	*shell_init(char **argv, char **env)
 	shell->argv = argv;
 	shell->prompt = NULL;
 	shell->err = 0;
+	shell->cmd_count = 0;
+	shell->status = 0;
+	shell->token_lst = NULL;
 	return (shell);
 }
 
@@ -76,7 +79,7 @@ static void	ft_routine(t_shell *shell)
 			free(shell->prompt);
 			continue ;
 		}
-		//executer
+		ft_start_exec(shell);
 	}
 }
 

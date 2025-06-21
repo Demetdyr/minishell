@@ -1,22 +1,36 @@
 #ifndef MINISHELL
 # define MINISHELL
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
 
 # define IN_HEREDOC 2
 # define AFTER_HEREDOC 3
 # define IN_CMD 4
 # define AFTER_CMD 5
 
+# define SUCCESS 0
+# define FAILURE -1
+# define HANDLED -2
 
-#define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
-#define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
-#define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
-#define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
+# define NO_FD -2
+
+# define R_OK	4
+# define W_OK	2
+# define X_OK	1
+# define F_OK	0
+
+# define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
+# define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
+# define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
+# define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
+
+# define ERR_NO_FILE 4001
+# define ERR_ACCESS 4002
+# define ERR_ACCESS_PIPE 4003
 
 typedef enum e_token_type
 {
@@ -66,15 +80,29 @@ typedef struct s_shell
 	t_token			**token_lst;
 	char			*prompt;
 	int				err;
+	int				cmd_count;
 }	t_shell;
 
 typedef struct s_syn
 {
-	bool  pipe_expected;   /* Öncü komut bittiyse pipe gelebilir   */
-	bool  in_quote;        /* 1 = tek tırnak, 2 = çift tırnak      */
-	int   redir_type;      /* 0 = yok, 1 = > veya <, 2 = >> veya <<*/
-	int   err_mask;        /* Sonuç bitleri                        */
+	bool	pipe_expected;   /* Öncü komut bittiyse pipe gelebilir   */
+	bool	in_quote;        /* 1 = tek tırnak, 2 = çift tırnak      */
+	int		redir_type;      /* 0 = yok, 1 = > veya <, 2 = >> veya <<*/
+	int		err_mask;        /* Sonuç bitleri                        */
 }	t_syn;
+
+typedef struct s_cmd
+{
+	char			**argv;
+	char			*cmd;
+	int				in_fd;
+	int				out_fd;
+	int				heredoc_fd;
+	int				index;
+	int				count;
+	int				bin;
+	int				bout;
+}	t_cmd;
 
 //minishell.c
 char			**env_copy(char **env);
@@ -146,7 +174,8 @@ int				ft_create_nodes(t_token **root, char *prompt, int start, int i);
 int				ft_pass_words(char *prompt, int *i);
 t_token			*ft_prompt_seperator(char *prompt);
 void			ft_insert_dollar_nodes(t_token **token);
-void			ft_insert_token(t_token **token, t_token *temp, t_token *sub_nodes);
+void			ft_insert_token(t_token **token, t_token *temp,
+					t_token *sub_nodes);
 
 //syntax_utils.c
 bool			ft_is_space(char c);
@@ -187,6 +216,11 @@ int				ft_pipe_count(t_token *token);
 bool			ft_token_sep_md_init(t_token_sep_md *md, t_token *token);
 t_token			**ft_separate_by_pipe(t_token *token);
 
+//token_utils2.c
+int				ft_count_tokens(t_token **token_lst);
+int				ft_config_cmd_arg_path(t_token *token, t_shell *shell,
+					t_cmd *cmd, int **pipe_fd);
+
 //token.c
 t_token			*ft_new_token(char *value, t_token_type type);
 t_token			*ft_token_to_last(t_token *token, t_token *new);
@@ -203,4 +237,26 @@ int				ft_strncmp(const char *s1, const char *s2, int n);
 // signal.c
 void			ft_check_signal(void);
 
-# endif
+// executer.c
+void			ft_start_exec(t_shell *shell);
+
+// executer_one.c
+int				ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd);
+
+// executer_utils.c
+int				ft_init_cmd(t_cmd *cmd, int token_count);
+bool			ft_has_cmd(t_token *token);
+int				ft_child_exit_status(int status);
+
+// redir.c
+int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd);
+int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
+
+// redir_util.c
+int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
+					bool last_heredoc);
+int				ft_check_redll(t_token *token, int index, t_cmd *cmd);
+int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
+int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
+
+#endif

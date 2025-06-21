@@ -22,7 +22,7 @@ int	ft_config_cmd_arg_path(t_token *token, t_shell *shell, t_cmd *cmd,
 		return (FAILURE);
 	if (ft_is_built(token, shell, cmd, pipe_fd))
 		return (ft_token_set_built(token, shell, cmd, pipe_fd));
-	path = ft_get_cmd_path(token, shell);
+	path = ft_get_path(token, shell);
 	if (!path)
 	{
 		if (shell->err != HANDLED)

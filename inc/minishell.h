@@ -31,6 +31,9 @@
 # define ERR_NO_FILE 4001
 # define ERR_ACCESS 4002
 # define ERR_ACCESS_PIPE 4003
+# define ERR_NO_CMD 4004
+# define ERR_ISDIR 4005
+# define ERR_PERMISSION 4006
 
 typedef enum e_token_type
 {
@@ -258,5 +261,18 @@ int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
 int				ft_check_redll(t_token *token, int index, t_cmd *cmd);
 int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
 int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
+
+// pipe.c
+int				**ft_init_pipe(int pipe_count);
+int				**ft_free_pipe(int **pipe_fd, int pipe_count);
+
+// executer_multiple.c
+void			ft_check_childs(t_shell *shell, t_cmd *cmd,
+					int **pipe_fd, int i);
+
+//path.c
+char			*ft_get_path(t_token *token, t_shell *shell);
+char			*ft_get_path_str(char **env);
+char			*ft_get_exact_path(t_token *token, t_shell *shell);
 
 #endif

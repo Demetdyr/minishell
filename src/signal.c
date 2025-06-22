@@ -4,8 +4,9 @@
 #include <sys/ioctl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
 
-static void	ctrl_d(int sig)
+static void	ft_ctrl_d(int sig)
 {
 	(void)sig;
 	rl_on_new_line();
@@ -43,7 +44,7 @@ static void ft_termios_config(void)
 	struct termios trm;
 
 	if (tcgetattr(STDIN_FILENO, &trm) != 0)
-		exit(perror("error"), -1);
+		exit((perror("error"), -1));
 	else
 	{
 		trm.c_cc[VQUIT] = _POSIX_VDISABLE;

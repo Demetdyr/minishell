@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int	ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd)
 {

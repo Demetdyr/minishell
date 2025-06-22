@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int	**ft_free_pipe(int **pipe_fd, int pipe_count)
 {

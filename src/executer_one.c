@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 static int	ft_exec_one_cmd_init(t_token *token, t_shell *shell, t_cmd *cmd)
 {
@@ -43,7 +43,7 @@ static int	ft_exec_one_cmd_child(t_cmd *cmd, t_shell *shell)
 	return (SUCCESS);
 }
 
-static void	ft_free_cmd(t_cmd *cmd)
+void	ft_free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;

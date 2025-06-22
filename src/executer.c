@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 static void	ft_close_childs(int **pipe_fd, int i)
 {

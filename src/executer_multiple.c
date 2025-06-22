@@ -1,6 +1,5 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <unistd.h>
-
 
 static void	ft_close_fds(int **pipe_fd, int i, int count)
 {

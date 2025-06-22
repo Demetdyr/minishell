@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <fcntl.h>
 
 int	ft_check_redl(t_token *token, t_shell *shell, t_cmd, bool last_heredoc)

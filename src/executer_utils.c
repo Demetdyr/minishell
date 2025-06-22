@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int	ft_init_cmd(t_cmd *cmd, int token_count)
 {

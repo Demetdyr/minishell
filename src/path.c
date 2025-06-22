@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <sys/stat.h>
 #include <errno.h>
 

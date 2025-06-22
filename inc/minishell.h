@@ -7,11 +7,6 @@
 # include <readline/history.h>
 # include <stdlib.h>
 
-# define IN_HEREDOC 2
-# define AFTER_HEREDOC 3
-# define IN_CMD 4
-# define AFTER_CMD 5
-
 # define SUCCESS 0
 # define FAILURE -1
 # define HANDLED -2
@@ -23,10 +18,25 @@
 # define X_OK	1
 # define F_OK	0
 
-# define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
-# define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
-# define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
-# define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
+# define IN_HEREDOC 2
+# define AFTER_HEREDOC 3
+# define IN_CMD 4
+# define AFTER_CMD 5
+
+# define STDIN_FILENO 0
+
+# ifndef _POSIX_VDISABLE
+# define _POSIX_VDISABLE 0
+# endif
+
+
+extern int	g_sig;
+
+
+#define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
+#define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
+#define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
+#define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
 
 # define ERR_NO_FILE 4001
 # define ERR_ACCESS 4002
@@ -100,7 +110,7 @@ typedef struct s_cmd
 	char			*cmd;
 	int				in_fd;
 	int				out_fd;
-	int				heredoc_fd;
+	int				*heredoc_fd;
 	int				index;
 	int				count;
 	int				bin;
@@ -245,6 +255,7 @@ void			ft_start_exec(t_shell *shell);
 
 // executer_one.c
 int				ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd);
+void			ft_free_cmd(t_cmd *cmd);
 
 // executer_utils.c
 int				ft_init_cmd(t_cmd *cmd, int token_count);
@@ -274,5 +285,10 @@ void			ft_check_childs(t_shell *shell, t_cmd *cmd,
 char			*ft_get_path(t_token *token, t_shell *shell);
 char			*ft_get_path_str(char **env);
 char			*ft_get_exact_path(t_token *token, t_shell *shell);
+
+//built.c
+bool			ft_is_built(t_token *token);
+int				ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd,
+					int **pipe_fd);
 
 #endif

@@ -13,9 +13,8 @@ SRCS			=	src/dollar_case.c src/dollar_util.c src/dollar.c \
 					src/syntax.c src/token_append_utils.c src/token_utils.c src/token.c src/utils.c \
 					src/token_append.c src/token_types.c src/token_utils2.c src/signal.c \
 					src/executer.c src/executer_one.c src/executer_multiple.c src/executer_utils.c \
-					src/path.c src/pipe.c src/redir.c src/redir_utils.c src/built.c\
-					src/err_print.c
-					
+					src/path.c src/pipe.c src/redir.c src/redir_utils.c src/built.c \
+					src/err_print.c src/utils2.c src/ft_split.c src/built2.c					
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CMD				= $(CMD_DIR)/$(PROGRAM).c

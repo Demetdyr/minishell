@@ -1,4 +1,7 @@
 #include "../inc/minishell.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 static void	ft_close_childs(int **pipe_fd, int i)
 {
@@ -72,17 +75,18 @@ static int	ft_prompt_exec(t_shell *shell)
 	token_count = ft_count_tokens(shell->token_lst);
 	if (token_count < 1)
 		return (FAILURE);
-	if (ft_init_cmd(&cmd, arr_len) != SUCCESS)
+	if (ft_init_cmd(&cmd, token_count) != SUCCESS)
 		return (FAILURE);
 	if (token_count == 1)
 		return (ft_exec_one_cmd(shell->token_lst[0], shell, &cmd));
 	pipe_fd = ft_init_pipe(token_count - 1);
 	if (!pipe_fd)
-		return (free(cmd.heredoc), FAILURE);
+		return (free(cmd.heredoc_fd), FAILURE);
 	if (ft_init_pipeline(pipe_fd, shell, &cmd, token_count) != SUCCESS)
-		return (ft_free_pipe(pipe_fd, token_count - 1), free(cmd.heredoc),
+		return (ft_free_pipe(pipe_fd, token_count - 1), free(cmd.heredoc_fd),
 			FAILURE);
-	return (ft_free_pipe(pipe_fd, token_count - 1), free(cmd.heredoc), SUCCESS);
+	return (ft_free_pipe(pipe_fd, token_count - 1),free(cmd.heredoc_fd),
+		SUCCESS);
 }
 
 void	ft_start_exec(t_shell *shell)

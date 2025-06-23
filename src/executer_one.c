@@ -1,4 +1,7 @@
 #include "../inc/minishell.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 static int	ft_exec_one_cmd_init(t_token *token, t_shell *shell, t_cmd *cmd)
 {
@@ -12,7 +15,7 @@ static int	ft_exec_one_cmd_init(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (FAILURE);
 	if (!cmd->cmd)
 		return (FAILURE);
-	if (cmmd->in_fd == NO_FD)
+	if (cmd->in_fd == NO_FD)
 		cmd->in_fd = cmd->heredoc_fd[0];
 	return (SUCCESS);
 }

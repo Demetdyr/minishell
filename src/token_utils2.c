@@ -42,7 +42,7 @@ int	ft_config_cmd_arg_path(t_token *token, t_shell *shell, t_cmd *cmd,
 		return (FAILURE);
 	}
 	cmd->cmd = path;
-	argv = ft_token_to_argv(token, path);
+	argv = ft_token_to_arg(token, path);
 	if (!argv)
 		return (free(path), FAILURE);
 	cmd->argv = argv;

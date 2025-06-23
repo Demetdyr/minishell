@@ -1,8 +1,9 @@
 #include "../inc/minishell.h"
 #include <sys/stat.h>
 #include <errno.h>
+#include <unistd.h>
 
-char	ft_get_exact_path(t_token *token, t_shell *shell)
+char	*ft_get_exact_path(t_token *token, t_shell *shell)
 {
 	struct stat	buf;
 	char		*str;
@@ -12,9 +13,9 @@ char	ft_get_exact_path(t_token *token, t_shell *shell)
 		return (ft_print_err_exec(token, shell, 106, ERR_ACCESS), NULL);
 	if (S_ISDIR(buf.st_mode))
 		return (ft_print_err_exec(token, shell, 107, ERR_ISDIR), NULL);
-	if (acsess(token->value, F_OK))
+	if (access(token->value, F_OK))
 		return (ft_print_err_exec(token, shell, 108, ERR_ACCESS), NULL);
-	if (acsess(token->value, X_OK))
+	if (access(token->value, X_OK))
 		return (ft_print_err_exec(token, shell, 109, ERR_PERMISSION), NULL);
 	str = ft_strdup(token->value);
 	if (!str)
@@ -22,7 +23,7 @@ char	ft_get_exact_path(t_token *token, t_shell *shell)
 	return (str);
 }
 
-char	ft_get_path_str(char **env)
+char	*ft_get_path_str(char **env)
 {
 	int		i;
 
@@ -71,7 +72,7 @@ static char	*ft_get_related_path(t_token *token, t_shell *shell,
 		while (token->type != CMD)
 			token = token->next;
 		path = ft_check_path(temp, token, shell);
-		if (!acsess(path, F_OK) && !acsess(path, X_OK))
+		if (!access(path, F_OK) && !access(path, X_OK))
 			return (path);
 		free(path);
 	}
@@ -82,7 +83,7 @@ char	*ft_get_path(t_token *token, t_shell *shell)
 {
 	char	*path;
 	char	**path_lst;
-	char	**path_lst_str;
+	char	*path_lst_str;
 
 	if (ft_strchr(token->value, '/'))
 		return (ft_get_exact_path(token, shell));

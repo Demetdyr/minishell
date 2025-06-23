@@ -76,3 +76,21 @@ int	ft_strncmp(const char *s1, const char *s2, int n)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char) c)
+			return ((char *) &s[i]);
+		i++;
+	}
+	if ((char) c == '\0')
+		return ((char *) &s[i]);
+	return (NULL);
+}

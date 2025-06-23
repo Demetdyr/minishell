@@ -75,3 +75,32 @@ int	ft_token_append_str(t_token **token, int start, int i)
 	ft_token_to_prev(token, new);
 	return (0);
 }
+
+char	**ft_token_to_arg(t_token *token, char *path)
+{
+	char	**argv;
+	int		i;
+	bool	in_quote;
+
+	if (!token || !path)
+		return (NULL);
+	argv = (char **)malloc(sizeof(char *) * (ft_count_tokens(&token) + 3));
+	if (!argv)
+		return (NULL);
+	argv[0] = path;
+	i = 1;
+	in_quote = false;
+	while (token)
+	{
+		if (token->type == ARG)
+		{
+			argv[i++] = token->value;
+			in_quote = true;
+		}
+		else if (in_quote)
+			break ;
+		token = token->next;
+	}
+	argv[i] = NULL;
+	return (argv);
+}

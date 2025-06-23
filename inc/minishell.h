@@ -45,6 +45,8 @@ extern int	g_sig;
 # define ERR_ISDIR 4005
 # define ERR_PERMISSION 4006
 
+# define ERR_STR_UNKNOWN "unknown error"
+
 typedef enum e_token_type
 {
 	NONE,
@@ -143,6 +145,7 @@ char			*ft_create_data_from_dollar(char *data, char *value,
 
 //free_utils.c
 void			ft_free_shell_single(t_shell **shell);
+void			ft_free_path(char **path);
 
 //free.c
 void			ft_free_token(t_token **token);
@@ -216,6 +219,7 @@ void			ft_token_append_all(t_token **token, int start, int i,
 void			ft_token_append_meta_init(t_token_append_meta *md,
 					t_token **token);
 int				ft_token_append_str(t_token **token, int start, int i);
+char			**ft_token_to_arg(t_token *token, char *path);
 
 //token_types.c
 void			ft_token_lst_types(t_token **token_lst);
@@ -246,38 +250,39 @@ char			*ft_strdup(const char *src);
 int				ft_strlen(const char *s);
 char			*ft_substr(char const *s, int start, int len);
 int				ft_strncmp(const char *s1, const char *s2, int n);
+char			*ft_strchr(const char *s, int c);
 
-// signal.c
+//signal.c
 void			ft_check_signal(void);
 
-// executer.c
+//executer.c
 void			ft_start_exec(t_shell *shell);
 
-// executer_one.c
+//executer_one.c
 int				ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd);
 void			ft_free_cmd(t_cmd *cmd);
 
-// executer_utils.c
+//executer_utils.c
 int				ft_init_cmd(t_cmd *cmd, int token_count);
 bool			ft_has_cmd(t_token *token);
 int				ft_child_exit_status(int status);
 
-// redir.c
+//redir.c
 int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd);
 int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
 
-// redir_util.c
+//redir_utils.c
 int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
 					bool last_heredoc);
 int				ft_check_redll(t_token *token, int index, t_cmd *cmd);
 int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
 int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
 
-// pipe.c
+//pipe.c
 int				**ft_init_pipe(int pipe_count);
 int				**ft_free_pipe(int **pipe_fd, int pipe_count);
 
-// executer_multiple.c
+//executer_multiple.c
 void			ft_check_childs(t_shell *shell, t_cmd *cmd,
 					int **pipe_fd, int i);
 
@@ -287,8 +292,23 @@ char			*ft_get_path_str(char **env);
 char			*ft_get_exact_path(t_token *token, t_shell *shell);
 
 //built.c
-bool			ft_is_built(t_token *token);
 int				ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd,
 					int **pipe_fd);
+void			ft_check_build_fd(t_cmd *cmd, int **pipe_fd);
+
+//err_print.c
+int				ft_print_err_exec(const t_token *token, t_shell *shell,
+					int err_code, int err_msg);
+void			ft_print_err_unknown(t_shell *shell);
+
+//utils2.c
+char			*ft_strjoin(char const *s1, char const *s2, bool flag_free);
+int				ft_strcmp(char *s1, char *s2);
+
+//ft_split.c
+char			**ft_split(char const *s, char c);
+
+//built2.c
+bool			ft_is_built(t_token *token);
 
 #endif

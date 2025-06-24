@@ -311,4 +311,25 @@ char			**ft_split(char const *s, char c);
 //built2.c
 bool			ft_is_built(t_token *token);
 
+//exec_echo.c
+int				ft_exec_echo(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//exec_cd.c
+int				ft_exec_cd(t_token *token, t_shell *shell);
+
+//exec_export.c
+int				ft_exec_export(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//exec_unset.c
+int				ft_exec_unset(t_token *token, t_shell *shell);
+
+//exec_env.c
+int				ft_exec_env(t_shell *shell, t_cmd *cmd);
+
+//exec_pwd.c
+int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);
+
+//exec_exit.c
+int				ft_exec_exit(t_token *token, t_shell *shell);
+
 #endif

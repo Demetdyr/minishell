@@ -96,18 +96,18 @@ int	ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd, int **pipe_fd)
 	if (ft_config_built_path_arg(token, shell, cmd) != SUCCESS)
 		return (FAILURE);
 	if (ft_strncmp(token->value, "cd", 3) == 0)
-		return (ft_exec_cd(cmd, shell));
-	else if (ft_strncmp(token->value, "exit", 5) == 0)
-		return (ft_exec_exit(cmd, shell));
-	else if (ft_strncmp(token->value, "export", 7) == 0)
-		return (ft_exec_export(cmd, shell));
-	else if (ft_strncmp(token->value, "unset", 6) == 0)
-		return (ft_exec_unset(cmd, shell));
-	else if (ft_strncmp(token->value, "env", 4) == 0)
-		return (ft_exec_env(cmd, shell));
+		return (ft_exec_cd(token, shell));
+	if (ft_strncmp(token->value, "export", 7) == 0)
+		return (ft_exec_export(token, shell, cmd));
+	if (ft_strncmp(token->value, "unset", 6) == 0)
+		return (ft_exec_unset(token, shell));
+	if (ft_strncmp(token->value, "env", 4) == 0)
+		return (ft_exec_env(shell, cmd));
 	else if (ft_strncmp(token->value, "pwd", 4) == 0)
-		return (ft_exec_pwd(cmd, shell));
+		return (ft_exec_pwd(shell, cmd));
 	else if (ft_strncmp(token->value, "echo", 5) == 0)
-		return (ft_exec_echo(cmd, shell));
+		return (ft_exec_echo(token, shell, cmd));
+	else if (ft_strncmp(token->value, "exit", 5) == 0)
+		return (ft_exec_exit(token, shell));
 	return (SUCCESS);
 }

@@ -40,6 +40,11 @@ extern int	g_sig;
 #define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
 #define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
 
+#define COLOR_RED "\033[0;31m"
+#define COLOR_RESET "\033[0m"
+
+# define PROMPT "minishell: "
+
 # define ERR_NO_FILE 4001
 # define ERR_ACCESS 4002
 # define ERR_ACCESS_PIPE 4003
@@ -55,6 +60,20 @@ extern int	g_sig;
 # define ERR_INVALID_ARG 4013
 
 # define ERR_STR_UNKNOWN "unknown error"
+# define ERR_STR_NO_FILE "No such file or directory"
+# define ERR_STR_ACCESS "Permission denied"
+# define ERR_STR_ACCESS_PIPE "Permission denied for pipe"
+# define ERR_STR_NO_CMD "command not found"
+# define ERR_STR_ISDIR "It is not a directory"
+# define ERR_STR_PERMISSION "Permission denied"
+# define ERR_STR_NO_HOME "HOME not set"
+# define ERR_STR_CHANGE_DIR "cd: cannot change directory"
+# define ERR_STR_MANY_ARGS "cd: too many arguments"
+# define ERR_STR_NOT_NUMERIC "exit: numeric argument required"
+# define ERR_STR_OTHER "An error occurred"
+# define ERR_STR_INVALID_EXPORT "export: not a valid identifier"
+# define ERR_STR_INVALID_ARG "unset: not a valid identifier"
+# define ERR_STR_UNEXPECT "unexpected error"
 
 typedef enum e_token_type
 {

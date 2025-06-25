@@ -3,8 +3,14 @@
 
 int	ft_exec_env(t_shell *shell, t_cmd *cmd)
 {
-	(void)shell;
-	(void)cmd;
+	int	i;
+
+	if (!shell || !shell->env || !cmd)
+		return (FAILURE);
+	i = 0;
+	while (shell->env[i])
+		fdprintln(cmd->bout, shell->env[i++]);
+	shell->status = 0;
 	return (SUCCESS);
 }
 

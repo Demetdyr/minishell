@@ -48,6 +48,9 @@ extern int	g_sig;
 # define ERR_PERMISSION 4006
 # define ERR_NO_HOME 4007
 # define ERR_CHANGE_DIR 4008
+# define ERR_MANY_ARGS 4009
+# define ERR_NOT_NUMERIC 4010
+# define ERR_OTHER 4011
 
 # define ERR_STR_UNKNOWN "unknown error"
 
@@ -304,11 +307,13 @@ void			ft_check_build_fd(t_cmd *cmd, int **pipe_fd);
 int				ft_print_err_exec(const t_token *token, t_shell *shell,
 					int err_code, int err_msg);
 void			ft_print_err_unknown(t_shell *shell);
+void			ft_print_err_general(const char *str, int err_no);
 
 //utils2.c
 char			*ft_strjoin(char const *s1, char const *s2, bool flag_free);
 int				ft_strcmp(char *s1, char *s2);
 char			**ft_str_lst_add(char **lst, char *value);
+int				ft_atoi(const char *str);
 
 //ft_split.c
 char			**ft_split(char const *s, char c);

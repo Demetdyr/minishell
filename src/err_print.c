@@ -18,3 +18,9 @@ int	ft_print_err_exec(const t_token *token, t_shell *shell,
 	(void)err_msg; // Suppress unused variable warning
 	return (FAILURE);
 }
+
+void	ft_print_err_general(const char *str, int err_no)
+{
+	errprintln(str);
+	exit (err_no);
+}

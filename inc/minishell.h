@@ -51,6 +51,8 @@ extern int	g_sig;
 # define ERR_MANY_ARGS 4009
 # define ERR_NOT_NUMERIC 4010
 # define ERR_OTHER 4011
+# define ERR_INVALID_EXPORT 4012
+# define ERR_INVALID_ARG 4013
 
 # define ERR_STR_UNKNOWN "unknown error"
 
@@ -142,6 +144,7 @@ bool			ft_is_valid_dollar(char *data, int i);
 bool			ft_is_digit(char c);
 bool			ft_is_alpha(char c);
 bool			ft_is_alnum_underscore(char c);
+bool			ft_is_al_underscore(char c);
 
 //dollar.c
 char			*ft_get_dollar_value(char *key, t_shell *shell);

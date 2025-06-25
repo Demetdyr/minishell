@@ -20,3 +20,8 @@ bool	ft_is_alnum_underscore(char c)
 {
 	return (ft_is_digit(c) || ft_is_alpha(c) || c == '_');
 }
+
+bool	ft_is_al_underscore(char c)
+{
+	return (ft_is_alpha(c) || c == '_');
+}

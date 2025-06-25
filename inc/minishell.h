@@ -340,4 +340,8 @@ int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);
 //exec_exit.c
 int				ft_exec_exit(t_token *token, t_shell *shell);
 
+//exec_echo_util.c
+bool			ft_is_valid_arg(t_token *token);
+bool			ft_is_newline_flag(const char *value);
+
 #endif

@@ -1,16 +1,29 @@
 #ifndef MINISHELL
 # define MINISHELL
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+
+# define SUCCESS 0
+# define FAILURE -1
+# define HANDLED -2
+
+# define NO_FD -2
+
+# define R_OK	4
+# define W_OK	2
+# define X_OK	1
+# define F_OK	0
 
 # define IN_HEREDOC 2
 # define AFTER_HEREDOC 3
 # define IN_CMD 4
 # define AFTER_CMD 5
+
+# define PATH_MAX 4096
 
 # define STDIN_FILENO 0
 
@@ -26,6 +39,41 @@ extern int	g_sig;
 #define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
 #define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
 #define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
+
+#define COLOR_RED "\033[0;31m"
+#define COLOR_RESET "\033[0m"
+
+# define PROMPT "minishell: "
+
+# define ERR_NO_FILE 4001
+# define ERR_ACCESS 4002
+# define ERR_ACCESS_PIPE 4003
+# define ERR_NO_CMD 4004
+# define ERR_ISDIR 4005
+# define ERR_PERMISSION 4006
+# define ERR_NO_HOME 4007
+# define ERR_CHANGE_DIR 4008
+# define ERR_MANY_ARGS 4009
+# define ERR_NOT_NUMERIC 4010
+# define ERR_OTHER 4011
+# define ERR_INVALID_EXPORT 4012
+# define ERR_INVALID_ARG 4013
+
+# define ERR_STR_UNKNOWN "unknown error"
+# define ERR_STR_NO_FILE "No such file or directory"
+# define ERR_STR_ACCESS "Permission denied"
+# define ERR_STR_ACCESS_PIPE "Permission denied for pipe"
+# define ERR_STR_NO_CMD "command not found"
+# define ERR_STR_ISDIR "It is not a directory"
+# define ERR_STR_PERMISSION "Permission denied"
+# define ERR_STR_NO_HOME "HOME not set"
+# define ERR_STR_CHANGE_DIR "cd: cannot change directory"
+# define ERR_STR_MANY_ARGS "cd: too many arguments"
+# define ERR_STR_NOT_NUMERIC "exit: numeric argument required"
+# define ERR_STR_OTHER "An error occurred"
+# define ERR_STR_INVALID_EXPORT "export: not a valid identifier"
+# define ERR_STR_INVALID_ARG "unset: not a valid identifier"
+# define ERR_STR_UNEXPECT "unexpected error"
 
 typedef enum e_token_type
 {
@@ -75,15 +123,29 @@ typedef struct s_shell
 	t_token			**token_lst;
 	char			*prompt;
 	int				err;
+	int				cmd_count;
 }	t_shell;
 
 typedef struct s_syn
 {
-	bool  pipe_expected;   /* Öncü komut bittiyse pipe gelebilir   */
-	bool  in_quote;        /* 1 = tek tırnak, 2 = çift tırnak      */
-	int   redir_type;      /* 0 = yok, 1 = > veya <, 2 = >> veya <<*/
-	int   err_mask;        /* Sonuç bitleri                        */
+	bool	pipe_expected;   /* Öncü komut bittiyse pipe gelebilir   */
+	bool	in_quote;        /* 1 = tek tırnak, 2 = çift tırnak      */
+	int		redir_type;      /* 0 = yok, 1 = > veya <, 2 = >> veya <<*/
+	int		err_mask;        /* Sonuç bitleri                        */
 }	t_syn;
+
+typedef struct s_cmd
+{
+	char			**argv;
+	char			*cmd;
+	int				in_fd;
+	int				out_fd;
+	int				*heredoc_fd;
+	int				index;
+	int				count;
+	int				bin;
+	int				bout;
+}	t_cmd;
 
 //minishell.c
 char			**env_copy(char **env);
@@ -101,6 +163,7 @@ bool			ft_is_valid_dollar(char *data, int i);
 bool			ft_is_digit(char c);
 bool			ft_is_alpha(char c);
 bool			ft_is_alnum_underscore(char c);
+bool			ft_is_al_underscore(char c);
 
 //dollar.c
 char			*ft_get_dollar_value(char *key, t_shell *shell);
@@ -111,6 +174,7 @@ char			*ft_create_data_from_dollar(char *data, char *value,
 
 //free_utils.c
 void			ft_free_shell_single(t_shell **shell);
+void			ft_free_path(char **path);
 
 //free.c
 void			ft_free_token(t_token **token);
@@ -155,7 +219,8 @@ int				ft_create_nodes(t_token **root, char *prompt, int start, int i);
 int				ft_pass_words(char *prompt, int *i);
 t_token			*ft_prompt_seperator(char *prompt);
 void			ft_insert_dollar_nodes(t_token **token);
-void			ft_insert_token(t_token **token, t_token *temp, t_token *sub_nodes);
+void			ft_insert_token(t_token **token, t_token *temp,
+					t_token *sub_nodes);
 
 //syntax_utils.c
 bool			ft_is_space(char c);
@@ -183,6 +248,7 @@ void			ft_token_append_all(t_token **token, int start, int i,
 void			ft_token_append_meta_init(t_token_append_meta *md,
 					t_token **token);
 int				ft_token_append_str(t_token **token, int start, int i);
+char			**ft_token_to_arg(t_token *token, char *path);
 
 //token_types.c
 void			ft_token_lst_types(t_token **token_lst);
@@ -196,6 +262,11 @@ int				ft_pipe_count(t_token *token);
 bool			ft_token_sep_md_init(t_token_sep_md *md, t_token *token);
 t_token			**ft_separate_by_pipe(t_token *token);
 
+//token_utils2.c
+int				ft_count_tokens(t_token **token_lst);
+int				ft_config_cmd_arg_path(t_token *token, t_shell *shell,
+					t_cmd *cmd, int **pipe_fd);
+
 //token.c
 t_token			*ft_new_token(char *value, t_token_type type);
 t_token			*ft_token_to_last(t_token *token, t_token *new);
@@ -208,8 +279,96 @@ char			*ft_strdup(const char *src);
 int				ft_strlen(const char *s);
 char			*ft_substr(char const *s, int start, int len);
 int				ft_strncmp(const char *s1, const char *s2, int n);
+char			*ft_strchr(const char *s, int c);
 
-// signal.c
+//signal.c
 void			ft_check_signal(void);
 
-# endif
+//executer.c
+void			ft_start_exec(t_shell *shell);
+
+//executer_one.c
+int				ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd);
+void			ft_free_cmd(t_cmd *cmd);
+
+//executer_utils.c
+int				ft_init_cmd(t_cmd *cmd, int token_count);
+bool			ft_has_cmd(t_token *token);
+int				ft_child_exit_status(int status);
+
+//redir.c
+int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd);
+int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//redir_utils.c
+int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
+					bool last_heredoc);
+int				ft_check_redll(t_token *token, int index, t_cmd *cmd);
+int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
+int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//pipe.c
+int				**ft_init_pipe(int pipe_count);
+int				**ft_free_pipe(int **pipe_fd, int pipe_count);
+
+//executer_multiple.c
+void			ft_check_childs(t_shell *shell, t_cmd *cmd,
+					int **pipe_fd, int i);
+
+//path.c
+char			*ft_get_path(t_token *token, t_shell *shell);
+char			*ft_get_path_str(char **env);
+char			*ft_get_exact_path(t_token *token, t_shell *shell);
+
+//built.c
+int				ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd,
+					int **pipe_fd);
+void			ft_check_build_fd(t_cmd *cmd, int **pipe_fd);
+
+//err_print.c
+int				ft_print_err_exec(const t_token *token, t_shell *shell,
+					int err_code, int err_msg);
+void			ft_print_err_unknown(t_shell *shell);
+void			ft_print_err_general(const char *str, int err_no);
+
+//utils2.c
+char			*ft_strjoin(char const *s1, char const *s2, bool flag_free);
+int				ft_strcmp(char *s1, char *s2);
+char			**ft_str_lst_add(char **lst, char *value);
+int				ft_atoi(const char *str);
+
+//ft_split.c
+char			**ft_split(char const *s, char c);
+
+//built2.c
+bool			ft_is_built(t_token *token);
+
+//exec_echo.c
+int				ft_exec_echo(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//exec_cd.c
+int				ft_exec_cd(t_token *token, t_shell *shell);
+
+//exec_export.c
+int				ft_exec_export(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//exec_unset.c
+int				ft_exec_unset(t_token *token, t_shell *shell);
+
+//exec_env.c
+int				ft_exec_env(t_shell *shell, t_cmd *cmd);
+char			*ft_get_value_env(const char *str, t_shell *shell);
+int				ft_config_pwd_env(t_shell *shell);
+int				ft_config_value_env(t_shell *shell, char *value);
+
+//exec_pwd.c
+int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);
+
+//exec_exit.c
+int				ft_exec_exit(t_token *token, t_shell *shell);
+
+//exec_echo_util.c
+bool			ft_is_valid_arg(t_token *token);
+bool			ft_is_newline_flag(const char *value);
+
+#endif

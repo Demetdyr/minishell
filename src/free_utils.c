@@ -15,3 +15,18 @@ void	ft_free_shell_single(t_shell **shell)
 	free((*shell)->prompt);
 	(*shell)->prompt = NULL;
 }
+
+void	ft_free_path(char **path)
+{
+	int	i;
+
+	if (!path)
+		return ;
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
+}

@@ -28,7 +28,7 @@ all:
 
 $(NAME): $(CMD) $(OBJS)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC_DIR) -lreadline $(CMD) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INC_DIR) $(CMD) $(OBJS) -o $(NAME) -lreadline -lncurses
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)

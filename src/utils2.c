@@ -35,3 +35,30 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+char	**ft_str_lst_add(char **lst, char *value)
+{
+	char	**new_lst;
+	int		i;
+	int		len;
+
+	if (!lst || !value)
+		return (NULL);
+	i = 0;
+	while (lst[i])
+		i++;
+	len = i;
+	new_lst = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!new_lst)
+		return (NULL);
+	i = 0;
+	while (lst[i])
+	{
+		new_lst[i] = lst[i];
+		i++;
+	}
+	new_lst[i++] = value;
+	new_lst[i] = NULL;
+	free(lst);
+	return (new_lst);
+}

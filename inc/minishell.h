@@ -23,6 +23,8 @@
 # define IN_CMD 4
 # define AFTER_CMD 5
 
+# define PATH_MAX 4096
+
 # define STDIN_FILENO 0
 
 # ifndef _POSIX_VDISABLE
@@ -44,6 +46,8 @@ extern int	g_sig;
 # define ERR_NO_CMD 4004
 # define ERR_ISDIR 4005
 # define ERR_PERMISSION 4006
+# define ERR_NO_HOME 4007
+# define ERR_CHANGE_DIR 4008
 
 # define ERR_STR_UNKNOWN "unknown error"
 
@@ -304,6 +308,7 @@ void			ft_print_err_unknown(t_shell *shell);
 //utils2.c
 char			*ft_strjoin(char const *s1, char const *s2, bool flag_free);
 int				ft_strcmp(char *s1, char *s2);
+char			**ft_str_lst_add(char **lst, char *value);
 
 //ft_split.c
 char			**ft_split(char const *s, char c);
@@ -325,6 +330,9 @@ int				ft_exec_unset(t_token *token, t_shell *shell);
 
 //exec_env.c
 int				ft_exec_env(t_shell *shell, t_cmd *cmd);
+char			*ft_get_value_env(const char *str, t_shell *shell);
+int				ft_config_pwd_env(t_shell *shell);
+int				ft_config_value_env(t_shell *shell, char *value);
 
 //exec_pwd.c
 int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);

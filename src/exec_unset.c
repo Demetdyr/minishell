@@ -50,13 +50,13 @@ static bool	ft_confirm_unset(t_token *token, t_shell *shell)
 	while (token)
 	{
 		if (!ft_is_al_underscore(token->value[0]))
-			return (ft_print_err_exec(token, shell, 121, ERR_INVALID_ARG),
+			return (ft_print_err_exec(token, shell, 1, ERRP_INVALID_ARG),
 				false);
 		i = 0;
 		while (token->value[i])
 		{
 			if (!ft_is_alnum_underscore(token->value[i]))
-				return (ft_print_err_exec(token, shell, 122, ERR_INVALID_ARG),
+				return (ft_print_err_exec(token, shell, 1, ERRP_INVALID_ARG),
 					false);
 			i++;
 		}

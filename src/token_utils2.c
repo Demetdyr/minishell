@@ -38,7 +38,7 @@ int	ft_config_cmd_arg_path(t_token *token, t_shell *shell, t_cmd *cmd,
 	if (!path)
 	{
 		if (shell->err != HANDLED)
-			return (ft_print_err_exec(token, shell, 104, ERR_NO_CMD), FAILURE);
+			return (ft_print_err_exec(token, shell, 127, ERR_NO_CMD), FAILURE);
 		return (FAILURE);
 	}
 	cmd->cmd = path;

@@ -9,7 +9,7 @@ static int	ft_exec_one_cmd_init(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (FAILURE);
 	if (ft_config_redir_fd(token, shell, cmd) != SUCCESS)
 		return (FAILURE);
-	if (ft_has_cmd(token))
+	if (ft_has_cmd(token) == false)
 		return (SUCCESS);
 	if (ft_config_cmd_arg_path(token, shell, cmd, NULL) != SUCCESS)
 		return (FAILURE);

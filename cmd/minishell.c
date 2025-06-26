@@ -65,13 +65,13 @@ static void	ft_routine(t_shell *shell)
 		if (!shell->prompt)
 			break ;
 		add_history(shell->prompt);
-		shell->err = ft_syntax_check(shell);
-		if (shell->err)
-		{
-			ft_print_syntax_err(shell->err, shell);
-			ft_free_prompt(shell);
-			continue ;
-		}
+		// shell->err = ft_syntax_check(shell);
+		// if (shell->err)
+		// {
+		// 	ft_print_syntax_err(shell->err, shell);
+		// 	ft_free_prompt(shell);
+		// 	continue ;
+		// }
 		shell->err = 0;
 		shell->token_lst = ft_lexer(shell);
 		if (!shell->token_lst)

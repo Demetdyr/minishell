@@ -9,14 +9,14 @@ char	*ft_get_exact_path(t_token *token, t_shell *shell)
 	char		*str;
 
 	stat(token->value, &buf);
-	if (errno = EACCES)
-		return (ft_print_err_exec(token, shell, 106, ERR_ACCESS), NULL);
+	if (errno == EACCES)
+		return (ft_print_err_exec(token, shell, 106, EACCES), NULL);
 	if (S_ISDIR(buf.st_mode))
-		return (ft_print_err_exec(token, shell, 107, ERR_ISDIR), NULL);
+		return (ft_print_err_exec(token, shell, 126, ERR_ISDIR), NULL);
 	if (access(token->value, F_OK))
-		return (ft_print_err_exec(token, shell, 108, ERR_ACCESS), NULL);
+		return (ft_print_err_exec(token, shell, 127, ERR_NO_FILE), NULL);
 	if (access(token->value, X_OK))
-		return (ft_print_err_exec(token, shell, 109, ERR_PERMISSION), NULL);
+		return (ft_print_err_exec(token, shell, 126, ERR_PERMISSION), NULL);
 	str = ft_strdup(token->value);
 	if (!str)
 		return (NULL);
@@ -49,7 +49,7 @@ static char	*ft_check_path(char *temp, t_token *token, t_shell *shell)
 		return (NULL);
 	stat(path, &buf);
 	if (S_ISDIR(buf.st_mode))
-		return (free(path), ft_print_err_exec(token, shell, 112, ERR_ISDIR),
+		return (free(path), ft_print_err_exec(token, shell, 127, ERR_ISDIR),
 			NULL);
 	return (path);
 }
@@ -63,7 +63,7 @@ static char	*ft_get_related_path(t_token *token, t_shell *shell,
 
 	i = 0;
 	if (*token->value == '\0')
-		return (ft_print_err_exec(token, shell, 110, ERR_NO_CMD), NULL);
+		return (ft_print_err_exec(token, shell, 127, ERR_NO_CMD), NULL);
 	while (path_lst[i])
 	{
 		temp = ft_strjoin(path_lst[i++], "/", false);
@@ -76,7 +76,7 @@ static char	*ft_get_related_path(t_token *token, t_shell *shell,
 			return (path);
 		free(path);
 	}
-	return (ft_print_err_exec(token, shell, 111, ERR_NO_CMD), NULL);
+	return (ft_print_err_exec(token, shell, 127, ERR_NO_CMD), NULL);
 }
 
 char	*ft_get_path(t_token *token, t_shell *shell)
@@ -88,7 +88,7 @@ char	*ft_get_path(t_token *token, t_shell *shell)
 	if (ft_strchr(token->value, '/'))
 		return (ft_get_exact_path(token, shell));
 	if (!shell->env)
-		return (ft_print_err_exec(token, shell, 105, ERR_NO_CMD), NULL);
+		return (ft_print_err_exec(token, shell, 127, ERR_NO_CMD), NULL);
 	path_lst_str = ft_get_path_str(shell->env);
 	if (!path_lst_str)
 		return (NULL);

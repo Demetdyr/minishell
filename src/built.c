@@ -5,12 +5,11 @@ static int	ft_config_built_path_arg(t_token *token, t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 	char	**arg;
-
 	path = token->value;
 	if (!path)
 	{
 		if (shell->err != HANDLED)
-			return (ft_print_err_exec(token, shell, 113, ERR_NO_CMD), FAILURE);
+			return (ft_print_err_exec(token, shell, 127, ERR_NO_CMD), FAILURE);
 		return (FAILURE);
 	}
 	cmd->cmd = path;

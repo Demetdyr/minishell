@@ -2,7 +2,7 @@
 
 bool	ft_is_built(t_token *token)
 {
-	if (!token || token->type == CMD || !token->value)
+	if (!token || token->type != CMD || !token->value)
 		return (false);
 	if ((ft_strncmp(token->value, "cd", 3) == 0)
 		|| (ft_strncmp(token->value, "exit", 5) == 0)

@@ -44,11 +44,12 @@ static void	ft_join_args_init(t_token *token, char *buffer, int *j, int *i)
 			token = token->next;
 			continue ;
 		}
-		i = 0;
+		*i = 0;
+		*j = 0;
 		while (token->value[*i])
 			buffer[(*j)++] = token->value[(*i)++];
 		if (token->next)
-			token = token->next;
+			buffer[(*j)++] = ' ';
 		token = token->next;
 	}
 }
@@ -59,7 +60,7 @@ static char	*ft_join_args(t_token *token, bool newline)
 	int		i;
 	int		j;
 
-	buffer = (char *)malloc(sizeof(char) * ft_buffer_size(token, newline));
+	buffer = (char *) malloc(sizeof(char) * ft_buffer_size(token, newline));
 	if (!buffer)
 		return (NULL);
 	ft_join_args_init(token, buffer, &j, &i);

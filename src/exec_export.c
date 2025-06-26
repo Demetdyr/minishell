@@ -25,7 +25,7 @@ static bool	ft_confirm_export(t_token *token, t_shell *shell)
 	while (token)
 	{
 		if (token->type == ARG && !ft_is_al_underscore(token->value[0]))
-			return (ft_print_err_exec(token, shell, 119, ERR_INVALID_ARG),
+			return (ft_print_err_exec(token, shell, 1, ERRP_INVALID_ARG),
 				false);
 		i = 0;
 		while (token->value[i])
@@ -33,7 +33,7 @@ static bool	ft_confirm_export(t_token *token, t_shell *shell)
 			if (token->value[i] == '=')
 				break ;
 			if (!ft_is_alnum_underscore(token->value[i]) && token->type == ARG)
-				return (ft_print_err_exec(token, shell, 120, ERR_INVALID_ARG),
+				return (ft_print_err_exec(token, shell, 1, ERRP_INVALID_ARG),
 					false);
 			i++;
 		}

@@ -1,5 +1,4 @@
 #include "../inc/minishell.h"
-#include <stdio.h>
 
 void	ft_dollar_case(t_token **root, t_shell *shell)
 {

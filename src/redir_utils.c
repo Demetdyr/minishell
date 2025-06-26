@@ -1,6 +1,8 @@
 #include "../inc/minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
+
 
 int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 {
@@ -14,7 +16,7 @@ int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 	if (access(iter->value, F_OK) == -1)
 		return (ft_print_err_exec(iter, shell, 1, ERR_NO_FILE));
 	if (access(iter->value, R_OK) == -1)
-		return (ft_print_err_exec(iter, shell, 101, ERR_ACCESS));
+		return (ft_print_err_exec(iter, shell, 101, EACCES));
 	if (last_heredoc)
 		close(open(iter->value, O_RDONLY));
 	else
@@ -72,7 +74,7 @@ int	ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd)
 	}
 	cmd->out_fd = open(iter->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->out_fd == -1)
-		return (ft_print_err_exec(token, shell, 102, ERR_NO_FILE));
+		return (ft_print_err_exec(token, shell, 103, ENOENT));
 	if (ft_count_tokens(shell->token_lst) > 1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
 	return (SUCCESS);
@@ -89,7 +91,7 @@ int	ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (ft_print_err_exec(token, shell, 1, ERR_ACCESS));
 	cmd->out_fd = open(iter->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->out_fd == -1)
-		return (ft_print_err_exec(token, shell, 103, ERR_NO_FILE));
+		return (ft_print_err_exec(token, shell, 105, ENOENT));
 	if (ft_count_tokens(shell->token_lst) > 1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
 	return (SUCCESS);

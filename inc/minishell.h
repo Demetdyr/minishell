@@ -45,26 +45,25 @@ extern int	g_sig;
 
 # define PROMPT "minishell: "
 
-# define ERR_NO_FILE 4001
-# define ERR_ACCESS 4002
-# define ERR_ACCESS_PIPE 4003
-# define ERR_NO_CMD 4004
-# define ERR_ISDIR 4005
-# define ERR_PERMISSION 4006
-# define ERR_NO_HOME 4007
-# define ERR_CHANGE_DIR 4008
-# define ERR_MANY_ARGS 4009
-# define ERR_NOT_NUMERIC 4010
-# define ERR_OTHER 4011
-# define ERR_INVALID_EXPORT 4012
-# define ERR_INVALID_ARG 4013
+# define ERR_NO_FILE 30002
+# define ERR_ACCESS 30006
+# define ERR_ACCESS_PIPE 30007
+# define ERR_NO_CMD 10002
+# define ERR_ISDIR 30008
+# define ERR_PERMISSION 30006
+# define ERR_NO_HOME 10001
+# define ERR_CHANGE_DIR 10003
+# define ERR_MANY_ARGS 30004
+# define ERR_NOT_NUMERIC 30003
+# define ERR_OTHER 40000
+# define ERRP_INVALID_ARG 10004
 
 # define ERR_STR_UNKNOWN "unknown error"
 # define ERR_STR_NO_FILE "No such file or directory"
 # define ERR_STR_ACCESS "Permission denied"
-# define ERR_STR_ACCESS_PIPE "Permission denied for pipe"
+# define ERR_STR_ACCESS_PIPE "Permission denied"
 # define ERR_STR_NO_CMD "command not found"
-# define ERR_STR_ISDIR "It is not a directory"
+# define ERR_STR_ISDIR "is a directory"
 # define ERR_STR_PERMISSION "Permission denied"
 # define ERR_STR_NO_HOME "HOME not set"
 # define ERR_STR_CHANGE_DIR "cd: cannot change directory"

@@ -11,6 +11,30 @@ int	ft_count_tokens(t_token **token_lst)
 		i++;
 	return (i);
 }
+int	ft_count_tokens_arg(t_token *token)
+{
+	t_token		*iter;
+	int			size;
+	bool		in_arg;
+
+	size = 0;
+	in_arg = false;
+	if (!token)
+		return (FAILURE);
+	iter = token;
+	while (iter)
+	{
+		if (iter->type == ARG)
+		{
+			size++;
+			in_arg = true;
+		}
+		else if (in_arg)
+			break ;
+		iter = iter->next;
+	}
+	return (size);
+}
 
 static int	ft_token_set_built(t_token *token, t_shell *shell, t_cmd *cmd,
 	int **pipe_fd)

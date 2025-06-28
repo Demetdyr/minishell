@@ -265,6 +265,7 @@ t_token			**ft_separate_by_pipe(t_token *token);
 int				ft_count_tokens(t_token **token_lst);
 int				ft_config_cmd_arg_path(t_token *token, t_shell *shell,
 					t_cmd *cmd, int **pipe_fd);
+int				ft_count_tokens_arg(t_token *token);
 
 //token.c
 t_token			*ft_new_token(char *value, t_token_type type);

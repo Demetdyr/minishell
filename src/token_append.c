@@ -84,7 +84,7 @@ char	**ft_token_to_arg(t_token *token, char *path)
 
 	if (!token || !path)
 		return (NULL);
-	argv = (char **)malloc(sizeof(char *) * (ft_count_tokens(&token) + 3));
+	argv = (char **)malloc(sizeof(char *) * (ft_count_tokens_arg(token) + 3));
 	if (!argv)
 		return (NULL);
 	argv[0] = path;

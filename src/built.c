@@ -83,9 +83,9 @@ void	ft_check_build_fd(t_cmd *cmd, int **pipe_fd)
 			cmd->in_fd = cmd->heredoc_fd[cmd->index];
 	ft_config_fd1_built(cmd, cmd->index, pipe_fd);
 	ft_config_fd2_built(cmd, cmd->index, pipe_fd, cmd->count);
-	if (cmd->bout != NO_FD)
+	if (cmd->bout == NO_FD)
 		cmd->bout = STDOUT_FILENO;
-	if (cmd->bin != NO_FD)
+	if (cmd->bin == NO_FD)
 		cmd->bin = STDIN_FILENO;
 }
 

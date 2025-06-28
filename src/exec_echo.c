@@ -37,6 +37,7 @@ static int	ft_buffer_size(t_token *token, bool newline)
 
 static void	ft_join_args_init(t_token *token, char *buffer, int *j, int *i)
 {
+	*j = 0;
 	while (token)
 	{
 		if (token->type != ARG)
@@ -45,7 +46,6 @@ static void	ft_join_args_init(t_token *token, char *buffer, int *j, int *i)
 			continue ;
 		}
 		*i = 0;
-		*j = 0;
 		while (token->value[*i])
 			buffer[(*j)++] = token->value[(*i)++];
 		if (token->next)
@@ -64,9 +64,9 @@ static char	*ft_join_args(t_token *token, bool newline)
 	if (!buffer)
 		return (NULL);
 	ft_join_args_init(token, buffer, &j, &i);
+	buffer[j] = '\0';
 	if (!newline)
 		buffer[j++] = '\n';
-	buffer[j] = '\0';
 	return (buffer);
 }
 

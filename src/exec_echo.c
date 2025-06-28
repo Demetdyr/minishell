@@ -1,20 +1,21 @@
 #include "../inc/minishell.h"
 
-static void	ft_buffer_init(int *size, int *new, t_token *token)
+static void	ft_buffer_init(int *size, int *new, t_token *token, int *j)
 {
+	*j = 0;
 	*size = 0;
 	if (token && token->value)
 		*size += ft_strlen(token->value);
 	*new = 1;
 }
 
-static int	ft_buffer_size(t_token *token, bool newline)
+static int	ft_buffer_size(t_token *token, bool newline, int *j)
 {
 	int		size;
 	int		new;
 	int		spc;
 
-	ft_buffer_init(&size, &new, token);
+	ft_buffer_init(&size, &new, token, j);
 	if (newline)
 		new = 0;
 	spc = -1;
@@ -35,9 +36,15 @@ static int	ft_buffer_size(t_token *token, bool newline)
 	return (size + spc + new + 2);
 }
 
-static void	ft_join_args_init(t_token *token, char *buffer, int *j, int *i)
+static char	*ft_join_args(t_token *token, bool newline)
 {
-	*j = 0;
+	char	*buffer;
+	int		i;
+	int		j;
+
+	buffer = (char *) malloc(sizeof(char) * ft_buffer_size(token, newline, &j));
+	if (!buffer)
+		return (NULL);
 	while (token)
 	{
 		if (token->type != ARG)
@@ -45,25 +52,13 @@ static void	ft_join_args_init(t_token *token, char *buffer, int *j, int *i)
 			token = token->next;
 			continue ;
 		}
-		*i = 0;
-		while (token->value[*i])
-			buffer[(*j)++] = token->value[(*i)++];
+		i = 0;
+		while (token->value[i])
+			buffer[(j)++] = token->value[(i)++];
 		if (token->next)
-			buffer[(*j)++] = ' ';
+			buffer[(j)++] = ' ';
 		token = token->next;
 	}
-}
-
-static char	*ft_join_args(t_token *token, bool newline)
-{
-	char	*buffer;
-	int		i;
-	int		j;
-
-	buffer = (char *) malloc(sizeof(char) * ft_buffer_size(token, newline));
-	if (!buffer)
-		return (NULL);
-	ft_join_args_init(token, buffer, &j, &i);
 	buffer[j] = '\0';
 	if (!newline)
 		buffer[j++] = '\n';

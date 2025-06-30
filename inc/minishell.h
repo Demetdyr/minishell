@@ -127,10 +127,10 @@ typedef struct s_shell
 
 typedef struct s_syn
 {
-	unsigned char	duplex;
-	unsigned char	simplex;
-	unsigned char	zero_pipe;
-	unsigned char	undefined;
+	unsigned char	dual;
+	unsigned char	single;
+	unsigned char	pipe;
+	unsigned char	unknown;
 } t_syn;
 
 typedef struct s_cmd
@@ -222,18 +222,18 @@ void			ft_insert_token(t_token **token, t_token *temp,
 					t_token *sub_nodes);
 
 //syntax_utils.c
-void	syntax_squote(t_syn *syntax);
-void	syntax_dquote(t_syn *syntax);
-int		syntax_pipe(t_shell *shell, t_syn *syntax, int *i);
-int		syntax_sarrow(t_syn *syntax, int *i);
-int		syntax_darrow(t_syn *syntax, int *i);
+void			ft_single_quote(t_syn *syntax);
+void			ft_double_quote(t_syn *syntax);
+int				ft_syntax_pipe(t_shell *shell, t_syn *syntax, int *i);
+int				ft_single_arrow(t_syn *syntax, int *i);
+int				ft_double_arrow(t_syn *syntax, int *i);
 
 
 
 //syntax.c
 int				ft_process_char(t_shell *shell, t_syn *syn, int *i);
 int				ft_is_space(char character);
-void			syntax_other(t_shell *shell, t_syn *syntax, int *i);
+void			ft_syntax_other(t_shell *shell, t_syn *syntax, int *i);
 int				ft_syntax_check(t_shell *shell);
 void			ft_print_syntax_err(int errs, t_shell *st);
 
@@ -340,6 +340,7 @@ char			*ft_strjoin(char const *s1, char const *s2, bool flag_free);
 int				ft_strcmp(char *s1, char *s2);
 char			**ft_str_lst_add(char **lst, char *value);
 int				ft_atoi(const char *str);
+int				ft_env_size(t_shell *shell);
 
 //ft_split.c
 char			**ft_split(char const *s, char c);

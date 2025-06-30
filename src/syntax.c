@@ -11,39 +11,39 @@ int	ft_is_space(char character)
 	);
 }
 
-void	syntax_other(t_shell *shell, t_syn *syntax, int *i)
+void	ft_syntax_other(t_shell *shell, t_syn *syntax, int *i)
 {
 	if (ft_is_space(shell->prompt[*i]))
 		++*i;
 	else
-		syntax->zero_pipe = (syntax->simplex = (++*i, 0));
+		syntax->pipe = (syntax->single = (++*i, 0));
 }
 
 int	ft_process_char(t_shell *shell, t_syn *syn, int *i)
 {
-	(void)(((shell->prompt[*i] == '\'') && (syntax_squote(syn), 1)) \
-		|| ((shell->prompt[*i] == '"') && (syntax_dquote(syn), 1)));
-	if (syn->duplex)
+	(void)(((shell->prompt[*i] == '\'') && (ft_single_quote(syn), 1)) \
+		|| ((shell->prompt[*i] == '"') && (ft_double_quote(syn), 1)));
+	if (syn->dual)
 		return ((*i)++, 1);
 	if ((shell->prompt[*i] == '>' && shell->prompt[(*i) + 1] != '>') || \
 			(shell->prompt[*i] == '<' && shell->prompt[(*i) + 1] != '<'))
 	{
-		if (syntax_sarrow(syn, i))
+		if (ft_single_arrow(syn, i))
 			return (2);
 	}
 	else if ((shell->prompt[*i] == '>' && shell->prompt[(*i) + 1] == '>') || \
 			(shell->prompt[*i] == '<' && shell->prompt[(*i) + 1] == '<'))
 	{
-		if (syntax_darrow(syn, i))
+		if (ft_double_arrow(syn, i))
 			return (2);
 	}
 	else if (shell->prompt[*i] == '|')
 	{
-		if (syntax_pipe(shell, syn, i))
+		if (ft_syntax_pipe(shell, syn, i))
 			return (2);
 	}
 	else
-		syntax_other(shell, syn, i);
+		ft_syntax_other(shell, syn, i);
 	return (0);
 }
 
@@ -53,10 +53,10 @@ int	ft_syntax_check(t_shell *shell)
 	t_syn syn;
 	int result;
 
-	syn.undefined = 0;
-	syn.zero_pipe = 1;
-	syn.duplex = 0;
-	syn.simplex = 0;
+	syn.unknown = 0;
+	syn.pipe = 1;
+	syn.dual = 0;
+	syn.single = 0;
 	i = 0;
 	while (ft_is_space(shell->prompt[i]))
 		i++;
@@ -68,8 +68,8 @@ int	ft_syntax_check(t_shell *shell)
 		if (result == 2)
 			break;
 	}
-	return ((syn.duplex << 0) | (syn.simplex << 8) | \
-			(syn.zero_pipe << 16) | (syn.undefined << 24));
+	return ((syn.dual << 0) | (syn.single << 8) | \
+			(syn.pipe << 16) | (syn.unknown << 24));
 }
 
 void	ft_print_syntax_err(int errs, t_shell *st)

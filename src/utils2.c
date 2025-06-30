@@ -87,3 +87,15 @@ int	ft_atoi(const char *str)
 	}
 	return (sign * num);
 }
+
+int	ft_env_size(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	if (!shell)
+		return (0);
+	while (shell->env[i])
+		i++;
+	return (i);
+}

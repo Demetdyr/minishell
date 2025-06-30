@@ -1,5 +1,33 @@
 #include "../inc/minishell.h"
 
+static void	ft_sort_env(t_shell *shell, int len)
+{
+	int		i;
+	int		j;
+	int		sorted;
+	char	*temp;
+
+	i = 0;
+	sorted = 0;
+	while (i < len - 1 && !sorted)
+	{
+		j = 0;
+		sorted = 1;
+		while (j < len - 1 - i)
+		{
+			if (ft_strcmp(shell->env[j], shell->env[j + 1]) > 0)
+			{
+				temp = shell->env[j];
+				shell->env[j] = shell->env[j + 1];
+				shell->env[j + 1] = temp;
+				sorted = 0;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 static int	ft_print_export(t_shell *shell, t_cmd *cmd)
 {
 	int	i;
@@ -65,7 +93,10 @@ int	ft_exec_export(t_token *token, t_shell *shell, t_cmd *cmd)
 	if (!token || !shell || !cmd)
 		return (FAILURE);
 	if (ft_is_valid_arg(token->next))
+	{
+		ft_sort_env(shell, ft_env_size(shell));
 		return (ft_print_export(shell, cmd));
+	}
 	if (ft_confirm_export(token->next, shell) == false)
 		return (FAILURE);
 	if (ft_config_export(token->next, shell) != SUCCESS)

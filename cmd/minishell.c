@@ -1,7 +1,7 @@
 #include "../inc/minishell.h"
 #include <stdlib.h>
 
-int g_sig = 0;
+int	g_sig = 0;
 
 static void	ft_free_env(char **copy_env, int i)
 {

@@ -11,6 +11,7 @@ int	ft_count_tokens(t_token **token_lst)
 		i++;
 	return (i);
 }
+
 int	ft_count_tokens_arg(t_token *token)
 {
 	t_token		*iter;

@@ -85,7 +85,7 @@ static int	ft_prompt_exec(t_shell *shell)
 	if (ft_init_pipeline(pipe_fd, shell, &cmd, token_count) != SUCCESS)
 		return (ft_free_pipe(pipe_fd, token_count - 1), free(cmd.heredoc_fd),
 			FAILURE);
-	return (ft_free_pipe(pipe_fd, token_count - 1),free(cmd.heredoc_fd),
+	return (ft_free_pipe(pipe_fd, token_count - 1), free(cmd.heredoc_fd),
 		SUCCESS);
 }
 

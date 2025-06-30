@@ -33,10 +33,10 @@ int	ft_exec_exit(t_token *token, t_shell *shell)
 		err_num = ft_atoi(token->next->value);
 		if (err_num < 0)
 			return (ft_print_err_exec(token, shell,
-				(int)(256 + (err_num % 256)), ERR_OTHER),
+					(int)(256 + (err_num % 256)), ERR_OTHER),
 				exit(err_num), FAILURE);
 		return (ft_print_err_exec(token, shell,
-			(int)(err_num % 256), ERR_OTHER),
+				(int)(err_num % 256), ERR_OTHER),
 			exit(err_num), FAILURE);
 	}
 	return (exit(err_num), SUCCESS);

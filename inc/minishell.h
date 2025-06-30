@@ -1,5 +1,5 @@
-#ifndef MINISHELL
-# define MINISHELL
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <stdbool.h>
 # include <stdio.h>
@@ -28,20 +28,18 @@
 # define STDIN_FILENO 0
 
 # ifndef _POSIX_VDISABLE
-# define _POSIX_VDISABLE 0
+#  define _POSIX_VDISABLE 0
 # endif
-
 
 extern int	g_sig;
 
+# define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
+# define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
+# define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
+# define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
 
-#define SYN_UNKNOWN_ERR_MSG "unknown syntax error"
-#define SYN_ZERO_PIPE_MSG "syntax error near unexpected token `newline'"
-#define SYN_EMPTY_AFTER_MSG "syntax error near unexpected token `newline'"
-#define SYN_MISS_QUOTE_MSG "unexpected quote `'', `\"'"
-
-#define COLOR_RED "\033[0;31m"
-#define COLOR_RESET "\033[0m"
+# define COLOR_RED "\033[0;31m"
+# define COLOR_RESET "\033[0m"
 
 # define PROMPT "minishell: "
 
@@ -123,7 +121,7 @@ typedef struct s_shell
 	char			*prompt;
 	int				err;
 	int				cmd_count;
-}	t_shell;
+}					t_shell;
 
 typedef struct s_syn
 {
@@ -131,7 +129,7 @@ typedef struct s_syn
 	unsigned char	single;
 	unsigned char	pipe;
 	unsigned char	unknown;
-} t_syn;
+}					t_syn;
 
 typedef struct s_cmd
 {
@@ -144,7 +142,7 @@ typedef struct s_cmd
 	int				count;
 	int				bin;
 	int				bout;
-}	t_cmd;
+}					t_cmd;
 
 //minishell.c
 char			**env_copy(char **env);
@@ -212,7 +210,6 @@ bool			ft_is_unnecessary_quote(int *quote, char value);
 int				ft_count_unnecessary_quotes(char *data);
 bool			ft_has_unnecessary_quotes(char *value);
 
-
 //seperator.c
 int				ft_create_nodes(t_token **root, char *prompt, int start, int i);
 int				ft_pass_words(char *prompt, int *i);
@@ -227,8 +224,6 @@ void			ft_double_quote(t_syn *syntax);
 int				ft_syntax_pipe(t_shell *shell, t_syn *syntax, int *i);
 int				ft_single_arrow(t_syn *syntax, int *i);
 int				ft_double_arrow(t_syn *syntax, int *i);
-
-
 
 //syntax.c
 int				ft_process_char(t_shell *shell, t_syn *syn, int *i);

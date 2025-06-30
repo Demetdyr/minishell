@@ -49,9 +49,9 @@ int	ft_process_char(t_shell *shell, t_syn *syn, int *i)
 
 int	ft_syntax_check(t_shell *shell)
 {
-	int i;
-	t_syn syn;
-	int result;
+	int		i;
+	t_syn	syn;
+	int		result;
 
 	syn.unknown = 0;
 	syn.pipe = 1;
@@ -61,12 +61,12 @@ int	ft_syntax_check(t_shell *shell)
 	while (ft_is_space(shell->prompt[i]))
 		i++;
 	if (shell->prompt[i] == '\0')
-		return 0;
+		return (0);
 	while (shell->prompt[i])
 	{
 		result = ft_process_char(shell, &syn, &i);
 		if (result == 2)
-			break;
+			break ;
 	}
 	return ((syn.dual << 0) | (syn.single << 8) | \
 			(syn.pipe << 16) | (syn.unknown << 24));

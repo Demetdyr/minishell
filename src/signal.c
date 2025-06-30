@@ -15,7 +15,7 @@ static void	ft_ctrl_d(int sig)
 	g_sig = 0;
 }
 
-static void ft_ctrl_c(int sig)
+static void	ft_ctrl_c(int sig)
 {
 	(void)sig;
 	if (g_sig == IN_HEREDOC)
@@ -39,9 +39,9 @@ static void ft_ctrl_c(int sig)
 	g_sig = 1;
 }
 
-static void ft_termios_config(void)
+static void	ft_termios_config(void)
 {
-	struct termios trm;
+	struct termios	trm;
 
 	if (tcgetattr(STDIN_FILENO, &trm) != 0)
 		exit((perror("error"), -1));

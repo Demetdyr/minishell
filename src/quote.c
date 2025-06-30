@@ -64,6 +64,7 @@ bool	ft_is_unnecessary_quote(int *quote, char value)
 	}
 	return (false);
 }
+
 int	ft_count_unnecessary_quotes(char *data)
 {
 	int	quote;

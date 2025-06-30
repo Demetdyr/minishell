@@ -5,6 +5,7 @@ static int	ft_config_built_path_arg(t_token *token, t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 	char	**arg;
+
 	path = token->value;
 	if (!path)
 	{

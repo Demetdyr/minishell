@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-
 int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 {
 	t_token	*iter;

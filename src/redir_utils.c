@@ -11,12 +11,12 @@ int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 	if (!token)
 		return (FAILURE);
 	iter = token->next;
-	if (!iter || !iter->next)
+	if (!iter && !iter->next)
 		return (FAILURE);
 	if (access(iter->value, F_OK) == -1)
-		return (ft_print_err_exec(iter, shell, 1, ERR_NO_FILE));
+		return (ft_print_err_exec(token->next, shell, 1, ERR_NO_FILE));
 	if (access(iter->value, R_OK) == -1)
-		return (ft_print_err_exec(iter, shell, 101, EACCES));
+		return (ft_print_err_exec(token->next, shell, 101, EACCES));
 	if (last_heredoc)
 		close(open(iter->value, O_RDONLY));
 	else

@@ -1,86 +1,75 @@
 #include "../inc/minishell.h"
 
-int	ft_handle_redir(t_syn *st, const char *s, int *i)
+int	ft_is_space(char character)
 {
-	int	dbl;
+	return (
+		' ' == character || \
+		'\t' == character || \
+		'\v' == character || \
+		'\f' == character || \
+		'\r' == character
+	);
+}
 
-	dbl = (s[*i] == s[*i + 1]);
-	if (st->in_quote)
-		return (0);
-	if (st->redir_type && st->redir_type != 3)
-		return (st->err_mask |= 0x0000ff00, 2);
-	if (dbl)
-		st->redir_type = 2;
+void	syntax_other(t_shell *shell, t_syn *syntax, int *i)
+{
+	if (ft_is_space(shell->prompt[*i]))
+		++*i;
 	else
-		st->redir_type = 1;
-	st->pipe_expected = true;
-	if (dbl)
-		(*i) += 2;
+		syntax->zero_pipe = (syntax->simplex = (++*i, 0));
+}
+
+int	ft_process_char(t_shell *shell, t_syn *syn, int *i)
+{
+	(void)(((shell->prompt[*i] == '\'') && (syntax_squote(syn), 1)) \
+		|| ((shell->prompt[*i] == '"') && (syntax_dquote(syn), 1)));
+	if (syn->duplex)
+		return ((*i)++, 1);
+	if ((shell->prompt[*i] == '>' && shell->prompt[(*i) + 1] != '>') || \
+			(shell->prompt[*i] == '<' && shell->prompt[(*i) + 1] != '<'))
+	{
+		if (syntax_sarrow(syn, i))
+			return (2);
+	}
+	else if ((shell->prompt[*i] == '>' && shell->prompt[(*i) + 1] == '>') || \
+			(shell->prompt[*i] == '<' && shell->prompt[(*i) + 1] == '<'))
+	{
+		if (syntax_darrow(syn, i))
+			return (2);
+	}
+	else if (shell->prompt[*i] == '|')
+	{
+		if (syntax_pipe(shell, syn, i))
+			return (2);
+	}
 	else
-		(*i) += 1;
+		syntax_other(shell, syn, i);
 	return (0);
 }
 
-t_syn	ft_syntax_init(t_syn *st)
+int	ft_syntax_check(t_shell *shell)
 {
-	st->pipe_expected = false;
-	st->in_quote = 0;
-	st->redir_type = 0;
-	st->err_mask = 0;
-	return (*st);
-}
+	int i;
+	t_syn syn;
+	int result;
 
-int	ft_analyze_char(const char *p, int *i, t_syn *st)
-{
-	if (p[*i] == '\'' || p[*i] == '"')
-	{
-		ft_toggle_quote(st, p[*i]);
-		(*i)++;
-	}
-	else if (!st->in_quote && (p[*i] == '>' || p[*i] == '<'))
-		ft_handle_redir(st, p, i);
-	else if (!st->in_quote && p[*i] == '|')
-	{
-		if (ft_handle_pipe(st))
-			return (1);
-		(*i)++;
-	}
-	else
-	{
-		st->pipe_expected = true;
-		if (st->redir_type == 3)
-			st->redir_type = 0;
-		(*i)++;
-	}
-	return (0);
-}
-
-int	ft_syntax_check(t_shell *sh)
-{
-	const char	*p;
-	int			i;
-	t_syn		st;
-	int			pipe_flag;
-
-	p = sh->prompt;
+	syn.undefined = 0;
+	syn.zero_pipe = 1;
+	syn.duplex = 0;
+	syn.simplex = 0;
 	i = 0;
-	st = ft_syntax_init(&st);
-	ft_skip_spaces(p, &i);
-	if (!p[i])
-		return (0);
-	while (p[i] && !st.err_mask)
+	while (ft_is_space(shell->prompt[i]))
+		i++;
+	if (shell->prompt[i] == '\0')
+		return 0;
+	while (shell->prompt[i])
 	{
-		if (ft_analyze_char(p, &i, &st))
-			break ;
-		ft_skip_spaces(p, &i);
+		result = ft_process_char(shell, &syn, &i);
+		if (result == 2)
+			break;
 	}
-	if (st.in_quote)
-		st.err_mask |= 0x000000ff;
-	if (st.pipe_expected)
-		pipe_flag = 1;
-	else
-		pipe_flag = 0;
-	return (st.err_mask | ((st.redir_type & 0xff) << 8) | (pipe_flag << 16));
+	return ((syn.duplex << 0) | (syn.simplex << 8) | \
+			(syn.zero_pipe << 16) | (syn.undefined << 24));
 }
 
 void	ft_print_syntax_err(int errs, t_shell *st)

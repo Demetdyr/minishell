@@ -1,29 +1,68 @@
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-bool	ft_is_space(char c)
+void	syntax_squote(t_syn *syntax)
 {
-	return (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r');
+	if (syntax->duplex == 1)
+	{
+		syntax->duplex = 0;
+		syntax->zero_pipe = 0;
+		if (syntax->simplex)
+			syntax->simplex = 0;
+	}
+	else if (syntax->duplex == 0)
+		syntax->duplex = 1;
 }
 
-void	ft_skip_spaces(const char *s, int *i)
+void	syntax_dquote(t_syn *syntax)
 {
-	while (s[*i] && ft_is_space(s[*i]))
-		(*i)++;
+	if (syntax->duplex == 2)
+	{
+		syntax->duplex = 0;
+		syntax->zero_pipe = 0;
+		if (syntax->simplex)
+			syntax->simplex = 0;
+	}
+	else if (syntax->duplex == 0)
+		syntax->duplex = 2;
 }
 
-void	ft_toggle_quote(t_syn *st, char quote)
+int	syntax_pipe(t_shell *shell, t_syn *syntax, int *i)
 {
-	if (st->in_quote && st->in_quote == quote)
-		st->in_quote = 0;
-	else if (!st->in_quote)
-		st->in_quote = quote;
+	shell->cmd_count++;
+	if (!syntax->zero_pipe)
+		syntax->zero_pipe = 1;
+	else
+		return (2);
+	if (!syntax->simplex)
+		syntax->simplex = 3;
+	else
+		return (2);
+	++(*i);
+	return (0);
 }
 
-int	ft_handle_pipe(t_syn *st)
+int	syntax_sarrow(t_syn *syntax, int *i)
 {
-	if (st->in_quote || !st->pipe_expected)
-		return (st->err_mask |= 0x00ff0000, 2);
-	st->pipe_expected = false;
-	st->redir_type = 0;
+	if (!syntax->simplex)
+		syntax->simplex = 1;
+	else if (syntax->simplex == 3)
+		syntax->simplex = 1;
+	else
+		return (2);
+	++*i;
+	return (0);
+}
+
+int	syntax_darrow(t_syn *syntax, int *i)
+{
+	if (!syntax->simplex)
+		syntax->simplex = 2;
+	else if (syntax->simplex == 3)
+	{
+		syntax->simplex = 2;
+	}
+	else
+		return (2);
+	*i += 2;
 	return (0);
 }

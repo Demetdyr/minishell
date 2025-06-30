@@ -19,6 +19,8 @@ int	ft_exec_cd(t_token *token, t_shell *shell)
 		shell->status = 0;
 		return (SUCCESS);
 	}
+	if (token->next && token->next->next)
+		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (chdir(token->next->value) == -1)
 		return (ft_print_err_exec(token, shell, 1, ERR_NO_FILE));
 	if (ft_config_pwd_env(shell) != SUCCESS)

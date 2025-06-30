@@ -26,16 +26,16 @@ int	ft_exec_exit(t_token *token, t_shell *shell)
 	if (token && token->next && token->next->next)
 		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next && !ft_is_digit_exit(token->next->value))
-		return (ft_print_err_exec(token, shell, 255, ERR_NOT_NUMERIC),
-			exit(255), FAILURE);
+		return (ft_print_err_exec(token, shell, 2, ERR_NOT_NUMERIC),
+			exit(2), FAILURE);
 	if (token->next)
 	{
 		err_num = ft_atoi(token->next->value);
 		if (err_num < 0)
-			return (ft_print_err_exec(token, shell, \
+			return (ft_print_err_exec(token, shell,
 				(int)(256 + (err_num % 256)), ERR_OTHER),
 				exit(err_num), FAILURE);
-		return (ft_print_err_exec(token, shell, \
+		return (ft_print_err_exec(token, shell,
 			(int)(err_num % 256), ERR_OTHER),
 			exit(err_num), FAILURE);
 	}

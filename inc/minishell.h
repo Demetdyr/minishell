@@ -63,7 +63,7 @@ extern int	g_sig;
 # define ERR_STR_ACCESS "Permission denied"
 # define ERR_STR_ACCESS_PIPE "Permission denied"
 # define ERR_STR_NO_CMD "command not found"
-# define ERR_STR_ISDIR "is a directory"
+# define ERR_STR_ISDIR "Is a directory"
 # define ERR_STR_PERMISSION "Permission denied"
 # define ERR_STR_NO_HOME "HOME not set"
 # define ERR_STR_CHANGE_DIR "cd: cannot change directory"
@@ -127,11 +127,11 @@ typedef struct s_shell
 
 typedef struct s_syn
 {
-	bool	pipe_expected;   /* Öncü komut bittiyse pipe gelebilir   */
-	bool	in_quote;        /* 1 = tek tırnak, 2 = çift tırnak      */
-	int		redir_type;      /* 0 = yok, 1 = > veya <, 2 = >> veya <<*/
-	int		err_mask;        /* Sonuç bitleri                        */
-}	t_syn;
+	unsigned char	duplex;
+	unsigned char	simplex;
+	unsigned char	zero_pipe;
+	unsigned char	undefined;
+} t_syn;
 
 typedef struct s_cmd
 {
@@ -222,16 +222,20 @@ void			ft_insert_token(t_token **token, t_token *temp,
 					t_token *sub_nodes);
 
 //syntax_utils.c
-bool			ft_is_space(char c);
-void			ft_skip_spaces(const char *s, int *i);
-void			ft_toggle_quote(t_syn *st, char quote);
-int				ft_handle_pipe(t_syn *st);
+void	syntax_squote(t_syn *syntax);
+void	syntax_dquote(t_syn *syntax);
+int		syntax_pipe(t_shell *shell, t_syn *syntax, int *i);
+int		syntax_sarrow(t_syn *syntax, int *i);
+int		syntax_darrow(t_syn *syntax, int *i);
+
+
 
 //syntax.c
-int				ft_handle_redir(t_syn *st, const char *p, int *i);
-int				ft_syntax_check(t_shell *sh);
+int				ft_process_char(t_shell *shell, t_syn *syn, int *i);
+int				ft_is_space(char character);
+void			syntax_other(t_shell *shell, t_syn *syntax, int *i);
+int				ft_syntax_check(t_shell *shell);
 void			ft_print_syntax_err(int errs, t_shell *st);
-t_syn			ft_syntax_init(t_syn *st);
 
 //token_append_utils.c
 int				ft_meta_append_pipe(t_token **token);

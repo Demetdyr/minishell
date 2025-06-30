@@ -21,7 +21,7 @@ static void	ft_config_fd1(t_cmd *cmd, int i, int **pipe_fd)
 {
 	if (cmd->in_fd == NO_FD)
 	{
-		if (cmd->in_fd == NO_FD)
+		if (cmd->heredoc_fd)
 			cmd->in_fd = cmd->heredoc_fd[i];
 	}
 	if (i != 0)

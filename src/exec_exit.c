@@ -16,7 +16,7 @@ static bool	ft_is_digit_exit(const char *c)
 	return (true);
 }
 
-int	ft_exec_exit(t_token *token, t_shell *shell)
+int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
 {
 	int	err_num;
 
@@ -34,10 +34,11 @@ int	ft_exec_exit(t_token *token, t_shell *shell)
 		if (err_num < 0)
 			return (ft_print_err_exec(token, shell,
 					(int)(256 + (err_num % 256)), ERR_OTHER),
-				exit(err_num), FAILURE);
+						ft_free_shell(&shell), exit(err_num), FAILURE);
 		return (ft_print_err_exec(token, shell,
 				(int)(err_num % 256), ERR_OTHER),
-			exit(err_num), FAILURE);
+					ft_free_shell(&shell), exit(err_num), FAILURE);
 	}
-	return (exit(err_num), SUCCESS);
+	cmd->cmd = NULL;
+	return (ft_free_shell(&shell), ft_free_cmd(cmd), exit(err_num), SUCCESS);
 }

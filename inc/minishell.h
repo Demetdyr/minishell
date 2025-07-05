@@ -365,7 +365,7 @@ int				ft_config_value_env(t_shell *shell, char *value);
 int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);
 
 //exec_exit.c
-int				ft_exec_exit(t_token *token, t_shell *shell);
+int				ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd);
 
 //exec_echo_util.c
 bool			ft_is_valid_arg(t_token *token);

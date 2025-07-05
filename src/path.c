@@ -47,7 +47,8 @@ static char	*ft_check_path(char *temp, t_token *token, t_shell *shell)
 	path = ft_strjoin(temp, token->value, true);
 	if (!path)
 		return (NULL);
-	stat(path, &buf);
+	if (stat(path, &buf) == -1)
+		return (path);
 	if (S_ISDIR(buf.st_mode))
 		return (free(path), ft_print_err_exec(token, shell, 127, ERR_ISDIR),
 			NULL);

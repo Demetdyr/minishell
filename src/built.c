@@ -108,6 +108,6 @@ int	ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd, int **pipe_fd)
 	else if (ft_strncmp(token->value, "echo", 5) == 0)
 		return (ft_exec_echo(token, shell, cmd));
 	else if (ft_strncmp(token->value, "exit", 5) == 0)
-		return (ft_exec_exit(token, shell));
+		return (ft_exec_exit(token, shell, cmd));
 	return (SUCCESS);
 }

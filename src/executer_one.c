@@ -50,12 +50,21 @@ void	ft_free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	free(cmd->cmd);
-	cmd->cmd = NULL;
-	free(cmd->argv);
-	cmd->argv = NULL;
-	free(cmd->heredoc_fd);
-	cmd->heredoc_fd = NULL;
+	if (cmd->cmd)
+	{
+		free(cmd->cmd);
+		cmd->cmd = NULL;
+	}
+	if (cmd->argv)
+	{
+		free(cmd->argv);
+		cmd->argv = NULL;
+	}
+	if (cmd->heredoc_fd)
+	{
+		free(cmd->heredoc_fd);
+		cmd->heredoc_fd = NULL;
+	}
 }
 
 int	ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd)

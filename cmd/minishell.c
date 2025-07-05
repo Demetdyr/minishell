@@ -92,5 +92,5 @@ int	main(int argc, char **argv, char **env)
 	if (!shell)
 		return (argc);
 	ft_routine(shell);
-	return (ft_free_shell(&shell), shell->status);
+	return (clear_history(), ft_free_shell(&shell), shell->status);
 }

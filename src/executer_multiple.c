@@ -69,21 +69,28 @@ void	ft_check_childs(t_shell *shell, t_cmd *cmd, int **pipe_fd, int i)
 {
 	int	count;
 
+	if (!shell || !cmd || !shell->token_lst)
+		exit(1);
 	count = ft_count_tokens(shell->token_lst);
-	if (!shell->token_lst[i] || !shell || !cmd || count < 1)
-		return (exit(shell->status));
+	if (i < 0 || i >= count || !shell->token_lst[i] || count < 1)
+		exit(shell->status);
 	if (ft_config_redir_fd(shell->token_lst[i], shell, cmd) != SUCCESS)
-		return (exit(shell->status));
+		exit(shell->status);
 	if (ft_has_cmd(shell->token_lst[i]) == false)
-		return (exit(shell->status));
+		exit(shell->status);
 	cmd->index = i;
 	cmd->count = count;
 	ft_close_fds(pipe_fd, i, count);
 	if (ft_config_cmd_arg_path(shell->token_lst[i], shell, cmd, pipe_fd)
 		!= SUCCESS)
-		return (exit(shell->status));
+		exit(shell->status);
 	ft_config_fd1(cmd, i, pipe_fd);
 	ft_config_fd2(cmd, i, pipe_fd, count);
+	if (!cmd->cmd || !cmd->argv || !cmd->argv[0])
+	{
+		ft_free_cmd(cmd);
+		exit(shell->status);
+	}
 	if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
 		exit(shell->status);
 	exit(0);

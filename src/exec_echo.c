@@ -59,9 +59,9 @@ static char	*ft_join_args(t_token *token, bool newline)
 			buffer[(j)++] = ' ';
 		token = token->next;
 	}
-	buffer[j] = '\0';
 	if (!newline)
 		buffer[j++] = '\n';
+	buffer[j] = '\0';
 	return (buffer);
 }
 

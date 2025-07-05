@@ -91,12 +91,12 @@ static int	ft_prompt_exec(t_shell *shell)
 
 void	ft_start_exec(t_shell *shell)
 {
-	   if (!(shell->token_lst && ft_prompt_exec(shell) == SUCCESS))
-			ft_print_err_unknown(shell);
-	   ft_free_prompt(shell);
-	   if (shell->token_lst)
-	   {
-			ft_free_token_lst(&shell->token_lst);
-			shell->token_lst = NULL;
-	   }
+	if (!(shell->token_lst && ft_prompt_exec(shell) == SUCCESS))
+		ft_print_err_unknown(shell);
+	ft_free_prompt(shell);
+	if (shell->token_lst)
+	{
+		ft_free_token_lst(&shell->token_lst);
+		shell->token_lst = NULL;
+	}
 }

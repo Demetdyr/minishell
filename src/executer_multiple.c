@@ -69,8 +69,6 @@ void	ft_check_childs(t_shell *shell, t_cmd *cmd, int **pipe_fd, int i)
 {
 	int	count;
 
-	if (!shell || !cmd || !shell->token_lst)
-		exit(1);
 	count = ft_count_tokens(shell->token_lst);
 	if (i < 0 || i >= count || !shell->token_lst[i] || count < 1)
 		exit(shell->status);

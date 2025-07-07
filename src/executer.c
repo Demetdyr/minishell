@@ -3,12 +3,16 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-static void	ft_close_childs(int **pipe_fd, int i)
+static void	ft_close_childs(int **pipe_fd, int count)
 {
-	if (i != 0)
+	int	i;
+
+	i = 0;
+	while (i < count - 1)
 	{
-		close(pipe_fd[i - 1][0]);
-		close(pipe_fd[i - 1][1]);
+		close(pipe_fd[i][0]);
+		close(pipe_fd[i][1]);
+		i++;
 	}
 }
 
@@ -32,10 +36,9 @@ static int	ft_pipline_init_childs(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 		pid[i] = pid_temp;
 		if (pid_temp == 0)
 			ft_check_childs(shell, cmd, pipe_fd, i);
-		else
-			ft_close_childs(pipe_fd, i);
 		i++;
 	}
+	ft_close_childs(pipe_fd, count);
 	g_sig = AFTER_CMD;
 	return (SUCCESS);
 }

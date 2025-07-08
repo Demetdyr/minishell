@@ -63,7 +63,10 @@ static void	ft_routine(t_shell *shell)
 	{
 		shell->prompt = readline("minishell> ");
 		if (!shell->prompt)
+		{
+			fdprint(1, "exit\n");
 			break ;
+		}
 		add_history(shell->prompt);
 		shell->err = ft_syntax_check(shell);
 		if (shell->err)
@@ -86,11 +89,13 @@ static void	ft_routine(t_shell *shell)
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*shell;
+	int		err_sta;
 
 	ft_check_signal();
 	shell = shell_init(argv, env);
 	if (!shell)
 		return (argc);
 	ft_routine(shell);
-	return (clear_history(), ft_free_shell(&shell), shell->status);
+	err_sta = shell->status;
+	return (clear_history(), ft_free_shell(&shell), err_sta);
 }

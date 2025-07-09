@@ -64,10 +64,10 @@ static void	ft_routine(t_shell *shell)
 		shell->prompt = readline("minishell> ");
 		if (!shell->prompt)
 		{
-			fdprint(1, "exit\n");
+			fdprintln(1, "exit");
 			break ;
 		}
-		add_history(shell->prompt);
+		ft_pipe_ended_prompt(shell);
 		shell->err = ft_syntax_check(shell);
 		if (shell->err)
 		{

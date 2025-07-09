@@ -371,4 +371,7 @@ int				ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd);
 bool			ft_is_valid_arg(t_token *token);
 bool			ft_is_newline_flag(const char *value);
 
+//utils3.c
+void			ft_pipe_ended_prompt(t_shell *shell);
+
 #endif

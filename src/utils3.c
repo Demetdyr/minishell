@@ -30,11 +30,23 @@ void	ft_pipe_ended_prompt(t_shell *shell)
 
 	while (ft_is_line_incomplete(shell->prompt))
 	{
+		g_sig = 2;
 		line = readline("> ");
-		if (!line)
+		if (!line || g_sig == 1)
+		{
+			if (g_sig == 1)
+			{
+				free(shell->prompt);
+				shell->prompt = NULL;
+				g_sig = 0;
+				return;
+			}
 			break ;
+		}
+		g_sig = 0;
 		ft_append_prompt_line(&shell->prompt, line);
 		free(line);
 	}
-	add_history(shell->prompt);
+	if (shell->prompt)
+		add_history(shell->prompt);
 }

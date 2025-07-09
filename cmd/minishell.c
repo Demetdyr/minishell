@@ -61,13 +61,22 @@ static void	ft_routine(t_shell *shell)
 {
 	while (1)
 	{
+		g_sig = 0;
 		shell->prompt = readline("minishell> ");
 		if (!shell->prompt)
 		{
 			fdprintln(1, "exit");
 			break ;
 		}
+		if (g_sig == 1)
+		{
+			free(shell->prompt);
+			shell->prompt = NULL;
+			continue;
+		}
 		ft_pipe_ended_prompt(shell);
+		if (!shell->prompt)
+			continue;
 		shell->err = ft_syntax_check(shell);
 		if (shell->err)
 		{

@@ -7,6 +7,7 @@
 # include <readline/history.h>
 # include <stdlib.h>
 
+# define CONTINUE 2
 # define SUCCESS 0
 # define FAILURE -1
 # define HANDLED -2
@@ -172,6 +173,7 @@ char			*ft_create_data_from_dollar(char *data, char *value,
 //free_utils.c
 void			ft_free_shell_single(t_shell **shell);
 void			ft_free_path(char **path);
+void			ft_free_env(char **copy_env, int i);
 
 //free.c
 void			ft_free_token(t_token **token);

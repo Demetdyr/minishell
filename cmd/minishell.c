@@ -3,16 +3,6 @@
 
 int	g_sig = 0;
 
-static void	ft_free_env(char **copy_env, int i)
-{
-	if (!copy_env)
-		return ;
-	if (i > 0)
-		while (i--)
-			free(copy_env[i]);
-	free(copy_env);
-}
-
 char	**env_copy(char **env)
 {
 	char	**env_copy;
@@ -57,6 +47,25 @@ static t_shell	*shell_init(char **argv, char **env)
 	return (shell);
 }
 
+static int	ft_route_in(t_shell *shell)
+{
+	if (shell->err)
+	{
+		ft_print_syntax_err(shell->err, shell);
+		ft_free_prompt(shell);
+		return (CONTINUE);
+	}
+	shell->err = 0;
+	shell->token_lst = ft_lexer(shell);
+	if (!shell->token_lst)
+	{
+		free(shell->prompt);
+		return (CONTINUE);
+	}
+	ft_start_exec(shell);
+	return (SUCCESS);
+}
+
 static void	ft_routine(t_shell *shell)
 {
 	while (1)
@@ -68,30 +77,12 @@ static void	ft_routine(t_shell *shell)
 			fdprintln(1, "exit");
 			break ;
 		}
-		if (g_sig == 1)
-		{
-			free(shell->prompt);
-			shell->prompt = NULL;
-			continue;
-		}
 		ft_pipe_ended_prompt(shell);
 		if (!shell->prompt)
-			continue;
+			continue ;
 		shell->err = ft_syntax_check(shell);
-		if (shell->err)
-		{
-			ft_print_syntax_err(shell->err, shell);
-			ft_free_prompt(shell);
+		if (ft_route_in(shell) == CONTINUE)
 			continue ;
-		}
-		shell->err = 0;
-		shell->token_lst = ft_lexer(shell);
-		if (!shell->token_lst)
-		{
-			free(shell->prompt);
-			continue ;
-		}
-		ft_start_exec(shell);
 	}
 }
 

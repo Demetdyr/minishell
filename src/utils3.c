@@ -39,7 +39,7 @@ void	ft_pipe_ended_prompt(t_shell *shell)
 				free(shell->prompt);
 				shell->prompt = NULL;
 				g_sig = 0;
-				return;
+				return ;
 			}
 			break ;
 		}

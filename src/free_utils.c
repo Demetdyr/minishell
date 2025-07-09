@@ -30,3 +30,13 @@ void	ft_free_path(char **path)
 	}
 	free(path);
 }
+
+void	ft_free_env(char **copy_env, int i)
+{
+	if (!copy_env)
+		return ;
+	if (i > 0)
+		while (i--)
+			free(copy_env[i]);
+	free(copy_env);
+}

@@ -14,6 +14,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#include <sys/wait.h>
+#include <signal.h>
 
 int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 {
@@ -38,34 +40,67 @@ int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 	}
 	return (SUCCESS);
 }
-
-int	ft_check_redll(t_token *token, int index, t_cmd *cmd)
+int ft_check_redll(t_token *token, int index, t_cmd *cmd)
 {
-	char	*str;
-	int		fd[2];
-	t_token	*iter;
+    char    *str;
+    int     fd[2];
+    t_token *iter;
+    pid_t   pid;
+    int     status;
+    int     empty_input = 1;
 
-	if (!token || !token->next)
-		return (FAILURE);
-	iter = token->next;
-	if (pipe(fd) == -1)
-		return (FAILURE);
-	g_sig = IN_HEREDOC;
-	while (true && g_sig == IN_HEREDOC)
-	{
-		str = readline("> ");
-		if (!str || ft_strcmp(str, iter->value) == 0)
-			break ;
-		fdprintln(fd[1], str);
-		free(str);
-		str = NULL;
-	}
-	g_sig = AFTER_HEREDOC;
-	free(str);
-	close (fd[1]);
-	if (cmd->heredoc_fd[index] != NO_FD)
-		close(cmd->heredoc_fd[index]);
-	return (cmd->heredoc_fd[index] = fd[0], SUCCESS);
+    if (!token || !token->next || pipe(fd) == -1)
+        return (FAILURE);
+    
+    iter = token->next;
+    g_sig = IN_HEREDOC;
+    pid = fork();
+    if (pid == -1)
+        return (close(fd[0]), close(fd[1]), FAILURE);
+    else if (pid == 0)
+    {
+        close(fd[0]);
+        signal(SIGINT, SIG_DFL);
+        while (true)
+        {
+            str = readline("> ");
+            if (!str)
+            {
+            	fdprintln(2, ERR_STR_CTRL_D_EOF);
+            	break;
+            }
+            empty_input = 0;
+            if (ft_strcmp(str, iter->value) == 0)
+                break;
+            write(fd[1], str, ft_strlen(str));
+            write(fd[1], "\n", 1);
+            free(str);
+        }
+        free(str);
+        close(fd[1]);
+        exit(empty_input ? 1 : 0);
+    }
+    else
+    {
+        close(fd[1]);
+        waitpid(pid, &status, 0);
+        g_sig = AFTER_HEREDOC;
+        
+        if (WIFEXITED(status))
+        {
+            if (WEXITSTATUS(status) == 1)
+            {
+                close(fd[0]);
+                return (FAILURE);
+            }
+            if (cmd->heredoc_fd[index] != NO_FD)
+                close(cmd->heredoc_fd[index]);
+            cmd->heredoc_fd[index] = fd[0];
+            return (SUCCESS);
+        }
+        close(fd[0]);
+        return (FAILURE);
+    }
 }
 
 int	ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd)

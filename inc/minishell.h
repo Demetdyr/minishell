@@ -84,6 +84,7 @@ extern int	g_sig;
 # define ERR_STR_INVALID_EXPORT "export: not a valid identifier"
 # define ERR_STR_INVALID_ARG "unset: not a valid identifier"
 # define ERR_STR_UNEXPECT "unexpected error"
+# define ERR_STR_CTRL_D_EOF "minishell: warning: here-document delimited by eof"
 
 typedef enum e_token_type
 {

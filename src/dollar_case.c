@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:39 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:40 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:25:55 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_number_dollar_case(char **data, int start, int i)
 	char	*temp;
 	char	*empty_value;
 
-	empty_value = ft_strdup("");
+	empty_value = ft_strdup(" ");
 	if (!empty_value)
 		return ;
 	i++;

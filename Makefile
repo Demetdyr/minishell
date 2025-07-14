@@ -37,10 +37,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(OBJ_DIR) & wait
-	$(RM) $(BIN_DIR) & wait
 
 fclean: clean
 	$(RM) $(NAME) & wait
+	$(RM) $(BIN_DIR) & wait
 
 re: fclean
 	$(MAKE) all

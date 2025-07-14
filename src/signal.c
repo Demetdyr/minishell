@@ -32,8 +32,8 @@ static void	ft_ctrl_c(int sig)
 	(void)sig;
 	if (g_sig == IN_HEREDOC)
 	{
-		write(1, "\033[A", 3);
-		ioctl(0, TIOCSTI, "\n");
+		write(1, "\n", 1);
+        g_sig = AFTER_HEREDOC;
 	}
 	else if (g_sig == IN_CMD)
 	{

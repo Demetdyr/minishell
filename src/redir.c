@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 21:16:57 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/15 22:14:59 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,27 @@
 #include <signal.h>
 #include <unistd.h>
 
-int	ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd)
+int	ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd, t_shell *shell)
 {
+	int	ret;
+
 	if (!token)
 		return (FAILURE);
 	while (token)
 	{
 		if (token->type == RED_LL)
-			if (ft_check_redll(token, index, cmd) != SUCCESS)
+		{
+			ret = ft_check_redll(token, index, cmd);
+			if (ret != SUCCESS)
+			{
+				if (ret > 128)
+				{
+					shell->status = ret;
+					return (FAILURE);
+				}
 				return (FAILURE);
+			}
+		}
 		token = token->next;
 	}
 	return (SUCCESS);
@@ -109,9 +121,16 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
 {
 	int	exit_status;
+	int	sig;
 
 	g_sig = AFTER_HEREDOC;
-	if ((*status & 0x7F) == 0)
+	if ((*status & 0x7F) != 0)
+	{
+		sig = *status & 0x7F;
+		close(fd[0]);
+		return (128 + sig);
+	}
+	else
 	{
 		exit_status = ((*status >> 8) & 0xFF);
 		if (exit_status == 1)
@@ -124,6 +143,4 @@ int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
 		cmd->heredoc_fd[index] = fd[0];
 		return (SUCCESS);
 	}
-	close(fd[0]);
-	return (FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:12 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:13 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/15 22:09:46 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static int	ft_exec_one_cmd_init(t_token *token, t_shell *shell, t_cmd *cmd)
 {
-	if (ft_config_heredoc_fd(token, 0, cmd) != SUCCESS)
+	if (ft_config_heredoc_fd(token, 0, cmd, shell) != SUCCESS)
 		return (FAILURE);
 	if (ft_config_redir_fd(token, shell, cmd) != SUCCESS)
 		return (FAILURE);

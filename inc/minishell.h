@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:19 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:11:00 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,9 @@ int				ft_child_exit_status(int status);
 //redir.c
 int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd);
 int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
+void			ft_check_redll_child(int fd[2], char *str, t_token *iter);
+int				ft_check_redll_parent(int fd[2], t_cmd *cmd,
+					int index, int *status);
 
 //redir_utils.c
 int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,

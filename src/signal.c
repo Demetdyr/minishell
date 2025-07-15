@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:55 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:56 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:06:43 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ static void	ft_ctrl_c(int sig)
 	(void)sig;
 	if (g_sig == IN_HEREDOC)
 	{
+		write(1, "^C", 2);
 		write(1, "\n", 1);
-        g_sig = AFTER_HEREDOC;
+		g_sig = AFTER_HEREDOC;
 	}
 	else if (g_sig == IN_CMD)
 	{

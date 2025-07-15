@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:52 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:58:55 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <signal.h>
+#include <unistd.h>
 
 int	ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd)
 {
@@ -73,4 +75,52 @@ int	ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd)
 	if (ft_check_fds(token, shell, cmd, last_heredoc) != SUCCESS)
 		return (FAILURE);
 	return (SUCCESS);
+}
+
+void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
+{
+	int	empty_input;
+
+	empty_input = 1;
+	close(fd[0]);
+	signal(SIGINT, SIG_DFL);
+	while (true)
+	{
+		str = readline("> ");
+		if (!str)
+		{
+			fdprintln(2, ERR_STR_CTRL_D_EOF);
+			break ;
+		}
+		empty_input = 0;
+		if (ft_strcmp(str, iter->value) == 0)
+			break ;
+		write(fd[1], str, ft_strlen(str));
+		write(fd[1], "\n", 1);
+		free(str);
+	}
+	free(str);
+	close(fd[1]);
+	if (empty_input == 1)
+		exit(1);
+	exit(0);
+}
+
+int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
+{
+	g_sig = AFTER_HEREDOC;
+	if (WIFEXITED(*status))
+	{
+		if (WEXITSTATUS(*status) == 1)
+		{
+			close(fd[0]);
+			return (FAILURE);
+		}
+		if (cmd->heredoc_fd[index] != NO_FD)
+			close(cmd->heredoc_fd[index]);
+		cmd->heredoc_fd[index] = fd[0];
+		return (SUCCESS);
+	}
+	close(fd[0]);
+	return (FAILURE);
 }

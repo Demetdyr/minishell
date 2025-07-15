@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 17:58:55 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/15 21:16:57 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,13 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
 
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
 {
+	int	exit_status;
+
 	g_sig = AFTER_HEREDOC;
-	if (WIFEXITED(*status))
+	if ((*status & 0x7F) == 0)
 	{
-		if (WEXITSTATUS(*status) == 1)
+		exit_status = ((*status >> 8) & 0xFF);
+		if (exit_status == 1)
 		{
 			close(fd[0]);
 			return (FAILURE);

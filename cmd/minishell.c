@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:13 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:14 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/17 19:13:09 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	g_sig = 0;
 
-char	**env_copy(char **env)
+char	**ft_env_copy(char **env)
 {
 	char	**env_copy;
 	int		i;
@@ -40,14 +40,14 @@ char	**env_copy(char **env)
 	return (env_copy);
 }
 
-static t_shell	*shell_init(char **argv, char **env)
+static t_shell	*ft_shell_init(char **argv, char **env)
 {
 	t_shell	*shell;
 
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	shell->env = env_copy(env);
+	shell->env = ft_env_copy(env);
 	if (!shell->env)
 		return (ft_free_shell(&shell), NULL);
 	shell->argv = argv;
@@ -56,6 +56,7 @@ static t_shell	*shell_init(char **argv, char **env)
 	shell->cmd_count = 0;
 	shell->status = 0;
 	shell->token_lst = NULL;
+	shell->oldpwd = NULL;
 	return (shell);
 }
 
@@ -104,7 +105,7 @@ int	main(int argc, char **argv, char **env)
 	int		err_sta;
 
 	ft_check_signal();
-	shell = shell_init(argv, env);
+	shell = ft_shell_init(argv, env);
 	if (!shell)
 		return (argc);
 	ft_routine(shell);

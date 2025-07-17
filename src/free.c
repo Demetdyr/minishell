@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:21 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:22 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/17 18:19:59 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void	ft_free_shell(t_shell **shell)
 	}
 	free((*shell)->prompt);
 	(*shell)->prompt = NULL;
+	if ((*shell)->oldpwd)
+	{
+		free((*shell)->oldpwd);
+		(*shell)->oldpwd = NULL;
+	}
 	ft_free_token_lst(&(*shell)->token_lst);
 	free(*shell);
 	*shell = NULL;

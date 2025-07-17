@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 22:12:08 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:20:42 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ extern int	g_sig;
 # define ERR_NOT_NUMERIC 30003
 # define ERR_OTHER 40000
 # define ERRP_INVALID_ARG 10004
+# define ERR_NO_OLDPWD 30005
 
 # define ERR_STR_UNKNOWN "unknown error"
 # define ERR_STR_NO_FILE "No such file or directory"
@@ -85,6 +86,7 @@ extern int	g_sig;
 # define ERR_STR_INVALID_ARG "unset: not a valid identifier"
 # define ERR_STR_UNEXPECT "unexpected error"
 # define ERR_STR_CTRL_D_EOF "minishell: warning: here-document delimited by eof"
+# define ERR_STR_NO_OLDPWD "OLDPWD not set"
 
 typedef enum e_token_type
 {
@@ -135,6 +137,7 @@ typedef struct s_shell
 	char			*prompt;
 	int				err;
 	int				cmd_count;
+	char			*oldpwd;
 }					t_shell;
 
 typedef struct s_syn
@@ -159,7 +162,7 @@ typedef struct s_cmd
 }					t_cmd;
 
 //minishell.c
-char			**env_copy(char **env);
+char			**ft_env_copy(char **env);
 
 //dollar_case.c
 void			ft_dollar_case(t_token **root, t_shell *shell);

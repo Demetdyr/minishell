@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err_print.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:48 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:49 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/17 19:19:06 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	ft_print_err_exec(const t_token *token, t_shell *shell,
 		errprintln(ERR_STR_ACCESS_PIPE);
 	else if (err_msg == ERR_ISDIR)
 		errprintln(ERR_STR_ISDIR);
+	else if (err_msg == ERR_NO_OLDPWD)
+		errprintln(ERR_STR_NO_OLDPWD);
 	else
 		errprintln(ERR_STR_UNEXPECT);
 	return (FAILURE);

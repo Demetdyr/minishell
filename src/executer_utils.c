@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:14 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:15 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/18 19:59:00 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,15 @@ bool	ft_has_cmd(t_token *token)
 int	ft_child_exit_status(int status)
 {
 	return ((status >> 8) & 0x000000ff);
+}
+
+int	ft_get_len_env(const char *value, int *len)
+{
+	char	*equals_pos;
+
+	equals_pos = ft_strchr(value, '=');
+	if (!equals_pos)
+		return (FAILURE);
+	*len = equals_pos - value;
+	return (SUCCESS);
 }

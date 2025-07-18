@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/17 19:20:42 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/18 19:56:31 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,7 @@ void			ft_free_cmd(t_cmd *cmd);
 int				ft_init_cmd(t_cmd *cmd, int token_count);
 bool			ft_has_cmd(t_token *token);
 int				ft_child_exit_status(int status);
+int				ft_get_len_env(const char *value, int *len);
 
 //redir.c
 int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd,

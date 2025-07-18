@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:57 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:58 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/18 19:55:43 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ int	ft_config_value_env(t_shell *shell, char *value)
 
 	if (!shell || !value || !shell->env)
 		return (FAILURE);
+	if (ft_get_len_env(value, &len) == FAILURE)
+		return (FAILURE);
 	found = true;
 	i = 0;
 	while (shell->env[i])
 	{
-		len = ft_strlen(shell->env[i]) - ft_strlen(ft_strchr(value, '='));
 		if (ft_strncmp(shell->env[i], value, len) == 0
 			&& shell->env[i][len] == '=')
 		{

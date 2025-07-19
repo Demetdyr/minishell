@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:19 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:16:11 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,21 @@ void	ft_free_env(char **copy_env, int i)
 		while (i--)
 			free(copy_env[i]);
 	free(copy_env);
+}
+
+void	ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status)
+{
+	ft_free_cmd(cmd);
+	ft_free_shell(&shell);
+	exit(status);
+}
+
+void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd)
+{
+	int	status;
+
+	ft_free_cmd(cmd);
+	status = shell->status;
+	ft_free_shell(&shell);
+	exit(status);
 }

@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 14:06:25 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:03:18 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,8 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t
 	}
 	close(fd[1]);
 	if (empty_input == 1)
-		exit(1);
-	ft_free_cmd(cmd);
-	ft_free_shell(&shell);
-	exit(0);
+		ft_free_shell_cmd_exit(shell, cmd, 1);
+	ft_free_shell_cmd_exit(shell, cmd, 0);
 }
 
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)

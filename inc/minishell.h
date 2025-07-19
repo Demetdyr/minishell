@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/18 19:56:31 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:16:58 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,8 @@ char			*ft_create_data_from_dollar(char *data, char *value,
 void			ft_free_shell_single(t_shell **shell);
 void			ft_free_path(char **path);
 void			ft_free_env(char **copy_env, int i);
+void			ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status);
+void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd);
 
 //free.c
 void			ft_free_token(t_token **token);

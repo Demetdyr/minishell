@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:12 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 22:09:46 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:11:52 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ static int	ft_exec_one_cmd_child(t_cmd *cmd, t_shell *shell)
 		if (cmd->out_fd != NO_FD)
 			dup2(cmd->out_fd, STDOUT_FILENO);
 		if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
-		{
-			ft_free_cmd(cmd);
-			ft_free_shell(&shell);
-			exit(shell->status);
-		}
+			ft_free_shell_cmd_exit_status(shell, cmd);
 	}
 	if (pid != 0)
 	{
@@ -89,6 +85,8 @@ int	ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (FAILURE);
 	if (ft_exec_one_cmd_init(token, shell, cmd) != SUCCESS)
 		return (ft_free_cmd(cmd), FAILURE);
+	if (ft_has_cmd(token) == false)
+		return (ft_free_cmd(cmd), SUCCESS);
 	if (ft_exec_one_cmd_child(cmd, shell) != SUCCESS)
 		return (ft_free_cmd(cmd), FAILURE);
 	return (ft_free_cmd(cmd), SUCCESS);

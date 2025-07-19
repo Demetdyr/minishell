@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_multiple.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:09 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:10 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:11:38 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,22 @@ void	ft_check_childs(t_shell *shell, t_cmd *cmd, int **pipe_fd, int i)
 
 	count = ft_count_tokens(shell->token_lst);
 	if (i < 0 || i >= count || !shell->token_lst[i] || count < 1)
-		exit(shell->status);
+		ft_free_shell_cmd_exit_status(shell, cmd);
 	if (ft_config_redir_fd(shell->token_lst[i], shell, cmd) != SUCCESS)
-		exit(shell->status);
+		ft_free_shell_cmd_exit_status(shell, cmd);
 	if (ft_has_cmd(shell->token_lst[i]) == false)
-		exit(shell->status);
+		ft_free_shell_cmd_exit_status(shell, cmd);
 	cmd->index = i;
 	cmd->count = count;
 	ft_close_fds(pipe_fd, i, count);
 	if (ft_config_cmd_arg_path(shell->token_lst[i], shell, cmd, pipe_fd)
 		!= SUCCESS)
-		exit(shell->status);
+		ft_free_shell_cmd_exit_status(shell, cmd);
 	ft_config_fd1(cmd, i, pipe_fd);
 	ft_config_fd2(cmd, i, pipe_fd, count);
 	if (!cmd->cmd || !cmd->argv || !cmd->argv[0])
-	{
-		ft_free_cmd(cmd);
-		exit(shell->status);
-	}
+		ft_free_shell_cmd_exit_status(shell, cmd);
 	if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
-		exit(shell->status);
-	exit(0);
+		ft_free_shell_cmd_exit_status(shell, cmd);
+	ft_free_shell_cmd_exit(shell, cmd, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 15:03:18 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 20:48:46 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,28 @@ int	ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd)
 
 void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t_cmd *cmd)
 {
-	int	empty_input;
+	int		empty_input;
+	char	delimiter[PATH_MAX];
+	int		delim_len;
 
 	empty_input = 1;
 	close(fd[0]);
+	delim_len = ft_strlen(iter->value);
+	if (delim_len >= PATH_MAX)
+	{
+		ft_free_cmd(cmd);
+		ft_free_shell(&shell);
+		exit(1);
+	}
+	delim_len = 0;
+	while (iter->value[delim_len] && delim_len < PATH_MAX - 1)
+	{
+		delimiter[delim_len] = iter->value[delim_len];
+		delim_len++;
+	}
+	delimiter[delim_len] = '\0';
+	ft_free_cmd(cmd);
+	ft_free_shell(&shell);
 	signal(SIGINT, SIG_DFL);
 	while (true)
 	{
@@ -105,7 +123,7 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t
 			break ;
 		}
 		empty_input = 0;
-		if (ft_strcmp(str, iter->value) == 0)
+		if (ft_strcmp(str, delimiter) == 0)
 		{
 			free(str);
 			str = NULL;
@@ -118,8 +136,8 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t
 	}
 	close(fd[1]);
 	if (empty_input == 1)
-		ft_free_shell_cmd_exit(shell, cmd, 1);
-	ft_free_shell_cmd_exit(shell, cmd, 0);
+		exit(1);
+	exit(0);
 }
 
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)

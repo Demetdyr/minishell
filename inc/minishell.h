@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 16:20:48 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 20:48:27 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 
 # define CONTINUE 2
 # define SUCCESS 0
@@ -395,8 +396,5 @@ int				ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd);
 //exec_echo_util.c
 bool			ft_is_valid_arg(t_token *token);
 bool			ft_is_newline_flag(const char *value);
-
-//utils3.c
-void			ft_pipe_ended_prompt(t_shell *shell);
 
 #endif

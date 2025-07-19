@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 22:14:59 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:06:25 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,16 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
 		}
 		empty_input = 0;
 		if (ft_strcmp(str, iter->value) == 0)
+		{
+			free(str);
+			str = NULL;
 			break ;
+		}
 		write(fd[1], str, ft_strlen(str));
 		write(fd[1], "\n", 1);
 		free(str);
+		str = NULL;
 	}
-	free(str);
 	close(fd[1]);
 	if (empty_input == 1)
 		exit(1);

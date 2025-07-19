@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:14 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/18 19:59:00 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:16:42 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_init_cmd(t_cmd *cmd, int token_count)
+int	ft_init_cmd(t_cmd *cmd, t_shell *shell, int token_count)
 {
 	int	i;
 
@@ -33,6 +33,7 @@ int	ft_init_cmd(t_cmd *cmd, int token_count)
 		cmd->heredoc_fd[i] = NO_FD;
 		i++;
 	}
+	cmd->shell = shell;
 	return (SUCCESS);
 }
 

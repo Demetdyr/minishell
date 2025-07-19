@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:48 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 18:05:05 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:09:24 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_check_redll(t_token *token, int index, t_cmd *cmd, t_shell *shell)
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), FAILURE);
 	else if (pid == 0)
-		ft_check_redll_child(fd, str, iter, shell, cmd);
+		return (ft_free_cmd(cmd), ft_check_redll_child(fd, str, iter, shell),
+			FAILURE);
 	else
 	{
 		close(fd[1]);
@@ -106,4 +107,33 @@ int	ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd)
 	if (ft_count_tokens(shell->token_lst) > 1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
 	return (SUCCESS);
+}
+
+void	ft_heredoc_child_handler(char *str, int empty_input, char *delimiter,
+			int fd[2])
+{
+	while (true)
+	{
+		str = readline("> ");
+		if (!str)
+		{
+			fdprintln(2, ERR_STR_CTRL_D_EOF);
+			break ;
+		}
+		empty_input = 0;
+		if (ft_strcmp(str, delimiter) == 0)
+		{
+			free(str);
+			str = NULL;
+			break ;
+		}
+		write(fd[1], str, ft_strlen(str));
+		write(fd[1], "\n", 1);
+		free(str);
+		str = NULL;
+	}
+	close(fd[1]);
+	if (empty_input == 1)
+		exit(1);
+	exit(0);
 }

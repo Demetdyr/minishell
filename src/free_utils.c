@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 16:24:59 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:19:33 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status)
 	exit(status);
 }
 
-void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid, int **pipe_fd)
+void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid,
+		int **pipe_fd)
 {
 	int	status;
 	int	pipe_count;

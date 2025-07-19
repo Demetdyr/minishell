@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:09 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 16:22:03 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:19:05 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,29 @@ static void	ft_config_fd2(t_cmd *cmd, int i, int **pipe_fd, int count)
 	}
 }
 
-void	ft_check_childs(t_shell *shell, t_cmd *cmd, int **pipe_fd, int i, pid_t *pid)
+void	ft_check_childs(t_cmd *cmd, int **pipe_fd, int i, pid_t *pid)
 {
 	int	count;
 
-	count = ft_count_tokens(shell->token_lst);
-	if (i < 0 || i >= count || !shell->token_lst[i] || count < 1)
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
-	if (ft_config_redir_fd(shell->token_lst[i], shell, cmd) != SUCCESS)
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
-	if (ft_has_cmd(shell->token_lst[i]) == false)
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
+	count = ft_count_tokens(cmd->shell->token_lst);
+	if (i < 0 || i >= count || !cmd->shell->token_lst[i] || count < 1)
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
+	if (ft_config_redir_fd(cmd->shell->token_lst[i],
+			cmd->shell, cmd) != SUCCESS)
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
+	if (ft_has_cmd(cmd->shell->token_lst[i]) == false)
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
 	cmd->index = i;
 	cmd->count = count;
 	ft_close_fds(pipe_fd, i, count);
-	if (ft_config_cmd_arg_path(shell->token_lst[i], shell, cmd, pipe_fd)
-		!= SUCCESS)
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
+	if (ft_config_cmd_arg_path(cmd->shell->token_lst[i],
+			cmd->shell, cmd, pipe_fd) != SUCCESS)
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
 	ft_config_fd1(cmd, i, pipe_fd);
 	ft_config_fd2(cmd, i, pipe_fd, count);
 	if (!cmd->cmd || !cmd->argv || !cmd->argv[0])
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
-	if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
-		ft_free_shell_cmd_exit_status(shell, cmd, pid, pipe_fd);
-	ft_free_shell_cmd_exit(shell, cmd, 0);
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
+	if (execve(cmd->cmd, cmd->argv, cmd->shell->env) == -1)
+		ft_free_shell_cmd_exit_status(cmd->shell, cmd, pid, pipe_fd);
+	ft_free_shell_cmd_exit(cmd->shell, cmd, 0);
 }

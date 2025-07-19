@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 20:48:27 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:17:56 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct s_cmd
 	int				count;
 	int				bin;
 	int				bout;
+	t_shell			*shell;
 }					t_cmd;
 
 //minishell.c
@@ -192,7 +193,8 @@ void			ft_free_shell_single(t_shell **shell);
 void			ft_free_path(char **path);
 void			ft_free_env(char **copy_env, int i);
 void			ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status);
-void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid, int **pipe_fd);
+void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd,
+					pid_t *pid, int **pipe_fd);
 
 //free.c
 void			ft_free_token(t_token **token);
@@ -312,7 +314,7 @@ int				ft_exec_one_cmd(t_token *token, t_shell *shell, t_cmd *cmd);
 void			ft_free_cmd(t_cmd *cmd);
 
 //executer_utils.c
-int				ft_init_cmd(t_cmd *cmd, int token_count);
+int				ft_init_cmd(t_cmd *cmd, t_shell *shell, int token_count);
 bool			ft_has_cmd(t_token *token);
 int				ft_child_exit_status(int status);
 int				ft_get_len_env(const char *value, int *len);
@@ -321,24 +323,27 @@ int				ft_get_len_env(const char *value, int *len);
 int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd,
 					t_shell *shell);
 int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
-void			ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t_cmd *cmd);
+void			ft_check_redll_child(int fd[2], char *str, t_token *iter,
+					t_shell *shell);
 int				ft_check_redll_parent(int fd[2], t_cmd *cmd,
 					int index, int *status);
 
 //redir_utils.c
 int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
 					bool last_heredoc);
-int				ft_check_redll(t_token *token, int index, t_cmd *cmd, t_shell *shell);
+int				ft_check_redll(t_token *token, int index, t_cmd *cmd,
+					t_shell *shell);
 int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
 int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
+void			ft_heredoc_child_handler(char *str, int empty_input,
+					char *delimiter, int fd[2]);
 
 //pipe.c
 int				**ft_init_pipe(int pipe_count);
 int				**ft_free_pipe(int **pipe_fd, int pipe_count);
 
 //executer_multiple.c
-void			ft_check_childs(t_shell *shell, t_cmd *cmd,
-					int **pipe_fd, int i, pid_t *pid);
+void			ft_check_childs(t_cmd *cmd, int **pipe_fd, int i, pid_t *pid);
 
 //path.c
 char			*ft_get_path(t_token *token, t_shell *shell);

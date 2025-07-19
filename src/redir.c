@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 20:48:46 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:09:47 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t_cmd *cmd)
+void	ft_check_redll_child(int fd[2], char *str, t_token *iter,
+		t_shell *shell)
 {
 	int		empty_input;
 	char	delimiter[PATH_MAX];
@@ -100,7 +101,6 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t
 	delim_len = ft_strlen(iter->value);
 	if (delim_len >= PATH_MAX)
 	{
-		ft_free_cmd(cmd);
 		ft_free_shell(&shell);
 		exit(1);
 	}
@@ -111,33 +111,9 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t
 		delim_len++;
 	}
 	delimiter[delim_len] = '\0';
-	ft_free_cmd(cmd);
 	ft_free_shell(&shell);
 	signal(SIGINT, SIG_DFL);
-	while (true)
-	{
-		str = readline("> ");
-		if (!str)
-		{
-			fdprintln(2, ERR_STR_CTRL_D_EOF);
-			break ;
-		}
-		empty_input = 0;
-		if (ft_strcmp(str, delimiter) == 0)
-		{
-			free(str);
-			str = NULL;
-			break ;
-		}
-		write(fd[1], str, ft_strlen(str));
-		write(fd[1], "\n", 1);
-		free(str);
-		str = NULL;
-	}
-	close(fd[1]);
-	if (empty_input == 1)
-		exit(1);
-	exit(0);
+	ft_heredoc_child_handler(str, empty_input, delimiter, fd);
 }
 
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)

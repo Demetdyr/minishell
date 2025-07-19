@@ -24,7 +24,7 @@ int	ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd, t_shell *shell)
 	{
 		if (token->type == RED_LL)
 		{
-			ret = ft_check_redll(token, index, cmd);
+			ret = ft_check_redll(token, index, cmd, shell);
 			if (ret != SUCCESS)
 			{
 				if (ret > 128)
@@ -89,7 +89,7 @@ int	ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
+void	ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t_cmd *cmd)
 {
 	int	empty_input;
 
@@ -119,6 +119,8 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter)
 	close(fd[1]);
 	if (empty_input == 1)
 		exit(1);
+	ft_free_cmd(cmd);
+	ft_free_shell(&shell);
 	exit(0);
 }
 

@@ -47,7 +47,11 @@ static int	ft_exec_one_cmd_child(t_cmd *cmd, t_shell *shell)
 		if (cmd->out_fd != NO_FD)
 			dup2(cmd->out_fd, STDOUT_FILENO);
 		if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
+		{
+			ft_free_cmd(cmd);
+			ft_free_shell(&shell);
 			exit(shell->status);
+		}
 	}
 	if (pid != 0)
 	{

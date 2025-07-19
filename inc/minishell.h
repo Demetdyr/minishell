@@ -318,14 +318,14 @@ int				ft_get_len_env(const char *value, int *len);
 int				ft_config_heredoc_fd(t_token *token, int index, t_cmd *cmd,
 					t_shell *shell);
 int				ft_config_redir_fd(t_token *token, t_shell *shell, t_cmd *cmd);
-void			ft_check_redll_child(int fd[2], char *str, t_token *iter);
+void			ft_check_redll_child(int fd[2], char *str, t_token *iter, t_shell *shell, t_cmd *cmd);
 int				ft_check_redll_parent(int fd[2], t_cmd *cmd,
 					int index, int *status);
 
 //redir_utils.c
 int				ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd,
 					bool last_heredoc);
-int				ft_check_redll(t_token *token, int index, t_cmd *cmd);
+int				ft_check_redll(t_token *token, int index, t_cmd *cmd, t_shell *shell);
 int				ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd);
 int				ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd);
 

@@ -41,7 +41,7 @@ int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 	return (SUCCESS);
 }
 
-int	ft_check_redll(t_token *token, int index, t_cmd *cmd)
+int	ft_check_redll(t_token *token, int index, t_cmd *cmd, t_shell *shell)
 {
 	char	*str;
 	int		fd[2];
@@ -58,7 +58,7 @@ int	ft_check_redll(t_token *token, int index, t_cmd *cmd)
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), FAILURE);
 	else if (pid == 0)
-		ft_check_redll_child(fd, str, iter);
+		ft_check_redll_child(fd, str, iter, shell, cmd);
 	else
 	{
 		close(fd[1]);

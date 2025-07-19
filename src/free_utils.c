@@ -6,12 +6,13 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 15:16:11 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:24:59 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include <stdlib.h>
+#include <sys/wait.h>
 
 void	ft_free_shell_single(t_shell **shell)
 {
@@ -60,10 +61,18 @@ void	ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status)
 	exit(status);
 }
 
-void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd)
+void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid, int **pipe_fd)
 {
 	int	status;
+	int	pipe_count;
 
+	if (pid)
+		free(pid);
+	if (pipe_fd)
+	{
+		pipe_count = ft_count_tokens(shell->token_lst) - 1;
+		ft_free_pipe(pipe_fd, pipe_count);
+	}
 	ft_free_cmd(cmd);
 	status = shell->status;
 	ft_free_shell(&shell);

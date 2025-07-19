@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:16 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 22:10:46 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:14:54 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_pipline_init_childs(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 			return (free(pid), FAILURE);
 		pid[i] = pid_temp;
 		if (pid_temp == 0)
-			ft_check_childs(shell, cmd, pipe_fd, i);
+			ft_check_childs(shell, cmd, pipe_fd, i, pid);
 		i++;
 	}
 	ft_close_childs(pipe_fd, count);

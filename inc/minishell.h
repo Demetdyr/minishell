@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 15:16:58 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:20:48 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void			ft_free_shell_single(t_shell **shell);
 void			ft_free_path(char **path);
 void			ft_free_env(char **copy_env, int i);
 void			ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status);
-void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd);
+void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid, int **pipe_fd);
 
 //free.c
 void			ft_free_token(t_token **token);
@@ -337,7 +337,7 @@ int				**ft_free_pipe(int **pipe_fd, int pipe_count);
 
 //executer_multiple.c
 void			ft_check_childs(t_shell *shell, t_cmd *cmd,
-					int **pipe_fd, int i);
+					int **pipe_fd, int i, pid_t *pid);
 
 //path.c
 char			*ft_get_path(t_token *token, t_shell *shell);

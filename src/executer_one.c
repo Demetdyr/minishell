@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:12 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 15:11:52 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:21:16 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_exec_one_cmd_child(t_cmd *cmd, t_shell *shell)
 		if (cmd->out_fd != NO_FD)
 			dup2(cmd->out_fd, STDOUT_FILENO);
 		if (execve(cmd->cmd, cmd->argv, shell->env) == -1)
-			ft_free_shell_cmd_exit_status(shell, cmd);
+			ft_free_shell_cmd_exit_status(shell, cmd, NULL, NULL);
 	}
 	if (pid != 0)
 	{

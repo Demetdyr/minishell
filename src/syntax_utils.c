@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:58 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:59 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:42:05 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ int	ft_syntax_pipe(t_shell *shell, t_syn *syn, int *i)
 
 int	ft_single_arrow(t_syn *syn, int *i)
 {
-	if (!syn->single)
-		syn->single = 1;
-	else if (syn->single == 3)
+	if (!syn->single || syn->single == 3)
 		syn->single = 1;
 	else
 		return (2);
@@ -67,12 +65,8 @@ int	ft_single_arrow(t_syn *syn, int *i)
 
 int	ft_double_arrow(t_syn *syn, int *i)
 {
-	if (!syn->single)
+	if (!syn->single || syn->single == 3)
 		syn->single = 2;
-	else if (syn->single == 3)
-	{
-		syn->single = 2;
-	}
 	else
 		return (2);
 	*i += 2;

@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:36 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:37 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 12:47:49 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*ft_get_exact_path(t_token *token, t_shell *shell)
 	struct stat	buf;
 	char		*str;
 
+	buf = (struct stat){0};
 	stat(token->value, &buf);
 	if (errno == EACCES)
 		return (ft_print_err_exec(token, shell, 106, EACCES), NULL);

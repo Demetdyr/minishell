@@ -6,11 +6,28 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:00 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:01 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:11:50 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static void	ft_free_cmd_exit(t_cmd *cmd)
+{
+	if (!cmd)
+		return ;
+	cmd->cmd = NULL;
+	if (cmd->argv)
+	{
+		free(cmd->argv);
+		cmd->argv = NULL;
+	}
+	if (cmd->heredoc_fd)
+	{
+		free(cmd->heredoc_fd);
+		cmd->heredoc_fd = NULL;
+	}
+}
 
 static bool	ft_is_digit_exit(const char *c)
 {
@@ -46,10 +63,10 @@ int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
 		if (err_num < 0)
 			return (ft_print_err_exec(token, shell,
 					(int)(256 + (err_num % 256)), ERR_OTHER),
-						ft_free_shell(&shell), exit(err_num), FAILURE);
+						ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(err_num), FAILURE);
 		return (ft_print_err_exec(token, shell,
 				(int)(err_num % 256), ERR_OTHER),
-					ft_free_shell(&shell), exit(err_num), FAILURE);
+					ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(err_num), FAILURE);
 	}
 	cmd->cmd = NULL;
 	return (ft_free_shell(&shell), ft_free_cmd(cmd), exit(err_num), SUCCESS);

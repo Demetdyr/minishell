@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 21:09:47 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:03:20 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,33 +112,28 @@ void	ft_check_redll_child(int fd[2], char *str, t_token *iter,
 	}
 	delimiter[delim_len] = '\0';
 	ft_free_shell(&shell);
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, ft_sigint_heredoc_handler);
 	ft_heredoc_child_handler(str, empty_input, delimiter, fd);
 }
 
 int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
 {
 	int	exit_status;
-	int	sig;
 
 	g_sig = AFTER_HEREDOC;
-	if ((*status & 0x7F) != 0)
+	exit_status = ((*status >> 8) & 0xFF);
+	if (exit_status == 1)
 	{
-		sig = *status & 0x7F;
 		close(fd[0]);
-		return (128 + sig);
+		return (FAILURE);
 	}
-	else
+	if (exit_status == 130)
 	{
-		exit_status = ((*status >> 8) & 0xFF);
-		if (exit_status == 1)
-		{
-			close(fd[0]);
-			return (FAILURE);
-		}
-		if (cmd->heredoc_fd[index] != NO_FD)
-			close(cmd->heredoc_fd[index]);
-		cmd->heredoc_fd[index] = fd[0];
-		return (SUCCESS);
+		close(fd[0]);
+		return (130);
 	}
+	if (cmd->heredoc_fd[index] != NO_FD)
+		close(cmd->heredoc_fd[index]);
+	cmd->heredoc_fd[index] = fd[0];
+	return (SUCCESS);
 }

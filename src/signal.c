@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:55 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/15 18:06:43 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:02:23 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ static void	ft_ctrl_d(int sig)
 	printf("\033[K");
 	rl_redisplay();
 	g_sig = 0;
+}
+
+void	ft_sigint_heredoc_handler(int sig)
+{
+	(void)sig;
+	exit(130);
 }
 
 static void	ft_ctrl_c(int sig)

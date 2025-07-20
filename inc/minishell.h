@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 21:17:56 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:02:55 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,7 @@ char			*ft_strchr(const char *s, int c);
 
 //signal.c
 void			ft_check_signal(void);
+void			ft_sigint_heredoc_handler(int sig);
 
 //executer.c
 void			ft_start_exec(t_shell *shell);

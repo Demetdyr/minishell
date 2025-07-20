@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:02 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:03 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:39:25 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ static void	ft_sort_env(t_shell *shell, int len)
 
 static int	ft_print_export(t_shell *shell, t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	char	*eq;
+	int		key_len;
 
 	if (!shell || !shell->env)
 		return (FAILURE);
@@ -50,7 +52,17 @@ static int	ft_print_export(t_shell *shell, t_cmd *cmd)
 	while (shell->env[i])
 	{
 		fdprint(cmd->bout, "declare -x ");
-		fdprintln(cmd->bout, shell->env[i]);
+		eq = ft_strchr(shell->env[i], '=');
+		if (eq)
+		{
+			key_len = eq - shell->env[i];
+			fdprintn(cmd->bout, shell->env[i], key_len);
+			fdprint(cmd->bout, "=\"");
+			fdprint(cmd->bout, eq + 1);
+			fdprintln(cmd->bout, "\"");
+		}
+		else
+			fdprintln(cmd->bout, shell->env[i]);
 		i++;
 	}
 	return (SUCCESS);

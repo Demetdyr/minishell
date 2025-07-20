@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 22:05:57 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:38:41 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ void			fdprint(int fd, const char *s);
 void			fdprintln(int fd, const char *s);
 void			errprint(const char *str);
 void			errprintln(const char *str);
+void			fdprintn(int fd, const char *str, size_t n);
 
 //quote_utils.c
 void			ft_unnecessary_quotes_case(t_token *root);

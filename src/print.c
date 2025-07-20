@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:41 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:42 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:38:19 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,11 @@ void	errprint(const char *str)
 void	errprintln(const char *str)
 {
 	fdprintln(STDERR_FILENO, str);
+}
+
+void	fdprintn(int fd, const char *str, size_t n)
+{
+	if (!str)
+		return ;
+	write(fd, str, n);
 }

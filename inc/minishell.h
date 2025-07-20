@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 11:02:55 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:05:57 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,4 +403,7 @@ int				ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd);
 bool			ft_is_valid_arg(t_token *token);
 bool			ft_is_newline_flag(const char *value);
 
+//redir_pipe.c
+int				ft_config_heredoc_fd_pipe(t_token *token, int index, t_cmd *cmd,
+					t_shell *shell, pid_t *pid, int **pipe_fd);
 #endif

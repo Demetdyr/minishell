@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:16 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 21:15:59 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:59:49 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	ft_pipline_init_childs(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 	count = ft_count_tokens(shell->token_lst);
 	while (i < count)
 	{
-		if (ft_config_heredoc_fd(shell->token_lst[i], i, cmd, shell) != SUCCESS)
+		if (ft_config_heredoc_fd_pipe(shell->token_lst[i],
+				i, cmd, shell, pid, pipe_fd) != SUCCESS)
 			return (FAILURE);
 		g_sig = IN_CMD;
 		pid_temp = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:00 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 13:16:18 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:26:15 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next && !ft_is_digit_exit(token->next->value))
 		return (ft_print_err_exec(token, shell, 2, ERR_NOT_NUMERIC),
-			exit(2), FAILURE);
+			ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(2), FAILURE);
 	if (token->next)
 	{
 		err_num = ft_atoi(token->next->value);

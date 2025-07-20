@@ -6,14 +6,14 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:50 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/17 19:17:07 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 00:55:44 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include <unistd.h>
 
-static int	ft_exec_cd_and_tilde(t_token *token, t_shell *shell, char *buffer)
+static int	ft_exec_cd_tilde(t_token *token, t_shell *shell, char *buffer)
 {
 	const char	*home;
 
@@ -36,18 +36,22 @@ static int	ft_exec_cd_and_tilde(t_token *token, t_shell *shell, char *buffer)
 
 static int	ft_exec_cd_hyphen(t_token *token, t_shell *shell, char *buffer)
 {
-	char	*prev_pwd;
+	char		*prev_pwd;
+	const char	*home;
 
+	home = ft_get_value_env("HOME", shell);
 	if (!shell->oldpwd)
-		return (ft_print_err_exec(token, shell, 1, ERR_NO_OLDPWD));
+	{
+		if (ft_exec_cd_tilde(token, shell, buffer) == SUCCESS)
+			return (fdprintln(1, home), SUCCESS);
+		return (FAILURE);
+	}
 	if (getcwd(buffer, PATH_MAX))
 	{
 		prev_pwd = ft_strdup(buffer);
 		if (chdir(shell->oldpwd) == -1)
-		{
-			free(prev_pwd);
-			return (ft_print_err_exec(token, shell, 1, ERR_NO_FILE));
-		}
+			return (free(prev_pwd), ft_print_err_exec(token, shell,
+					1, ERR_NO_FILE));
 		fdprintln(1, shell->oldpwd);
 		free(shell->oldpwd);
 		shell->oldpwd = prev_pwd;
@@ -66,7 +70,7 @@ int	ft_exec_cd(t_token *token, t_shell *shell)
 		return (FAILURE);
 	if (!token->next || (token->next && token->next->value
 			&& ft_strcmp(token->next->value, "~") == 0))
-		return (ft_exec_cd_and_tilde(token, shell, buffer));
+		return (ft_exec_cd_tilde(token, shell, buffer));
 	if (token->next && token->next->next)
 		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next && token->next->value

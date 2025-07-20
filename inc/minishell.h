@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 22:38:41 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 01:03:44 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ extern int	g_sig;
 # define ERR_NOT_NUMERIC 30003
 # define ERR_OTHER 40000
 # define ERRP_INVALID_ARG 10004
-# define ERR_NO_OLDPWD 30005
 
 # define ERR_STR_UNKNOWN "unknown error"
 # define ERR_STR_NO_FILE "No such file or directory"
@@ -87,7 +86,6 @@ extern int	g_sig;
 # define ERR_STR_INVALID_ARG "unset: not a valid identifier"
 # define ERR_STR_UNEXPECT "unexpected error"
 # define ERR_STR_CTRL_D_EOF "minishell: warning: here-document delimited by eof"
-# define ERR_STR_NO_OLDPWD "OLDPWD not set"
 
 typedef enum e_token_type
 {

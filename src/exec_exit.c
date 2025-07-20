@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:00 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 13:11:50 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:16:18 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
 		if (err_num < 0)
 			return (ft_print_err_exec(token, shell,
 					(int)(256 + (err_num % 256)), ERR_OTHER),
-						ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(err_num), FAILURE);
+						ft_free_shell(&shell), ft_free_cmd_exit(cmd),
+							exit(err_num), FAILURE);
 		return (ft_print_err_exec(token, shell,
 				(int)(err_num % 256), ERR_OTHER),
-					ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(err_num), FAILURE);
+					ft_free_shell(&shell), ft_free_cmd_exit(cmd),
+						exit(err_num), FAILURE);
 	}
 	cmd->cmd = NULL;
 	return (ft_free_shell(&shell), ft_free_cmd(cmd), exit(err_num), SUCCESS);

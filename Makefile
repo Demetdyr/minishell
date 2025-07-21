@@ -16,7 +16,7 @@ SRCS			=	src/dollar_case.c src/dollar_util.c src/dollar.c \
 					src/path.c src/pipe.c src/redir.c src/redir_utils.c src/redir_pipe.c src/built.c \
 					src/err_print.c src/utils2.c src/ft_split.c src/built2.c \
 					src/exec_cd.c src/exec_echo.c src/exec_env.c src/exec_exit.c src/exec_export_utils.c \
-					src/exec_export.c src/exec_pwd.c src/exec_unset.c src/exec_echo_utils.c
+					src/exec_export.c src/exec_pwd.c src/exec_unset.c src/exec_echo_utils.c src/fd_utils.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CMD				= $(CMD_DIR)/$(PROGRAM).c

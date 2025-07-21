@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:13 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 14:20:29 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:09:40 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static t_shell	*ft_shell_init(char **argv, char **env)
 	shell->status = 0;
 	shell->token_lst = NULL;
 	shell->oldpwd = NULL;
+	shell->fd_count = 0;
+	ft_init_fd_list(shell);
 	return (shell);
 }
 

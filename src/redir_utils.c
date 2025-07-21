@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:48 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 21:09:24 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:08:06 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	ft_check_redl(t_token *token, t_shell *shell, t_cmd *cmd, bool last_heredoc)
 		if (cmd->in_fd != NO_FD)
 			close(cmd->in_fd);
 		cmd->in_fd = open(iter->value, O_RDONLY);
+		if (cmd->in_fd != -1)
+			ft_add_fd(shell, cmd->in_fd);
 	}
 	return (SUCCESS);
 }
@@ -85,6 +87,8 @@ int	ft_check_redr(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (ft_print_err_exec(token, shell, 1, ERR_ACCESS));
 	}
 	cmd->out_fd = open(iter->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (cmd->out_fd != -1)
+		ft_add_fd(shell, cmd->out_fd);
 	if (cmd->out_fd == -1)
 		return (ft_print_err_exec(token, shell, 103, ENOENT));
 	if (ft_count_tokens(shell->token_lst) > 1)
@@ -102,6 +106,8 @@ int	ft_check_redrr(t_token *token, t_shell *shell, t_cmd *cmd)
 	if (access(iter->value, F_OK) == 0 && access(iter->value, W_OK) == -1)
 		return (ft_print_err_exec(token, shell, 1, ERR_ACCESS));
 	cmd->out_fd = open(iter->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (cmd->out_fd != -1)
+		ft_add_fd(shell, cmd->out_fd);
 	if (cmd->out_fd == -1)
 		return (ft_print_err_exec(token, shell, 105, ENOENT));
 	if (ft_count_tokens(shell->token_lst) > 1)

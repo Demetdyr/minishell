@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 14:45:57 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:15:59 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define AFTER_CMD 5
 
 # define PATH_MAX 4096
+# define MAX_FD 256
 
 # define STDIN_FILENO 0
 
@@ -138,6 +139,8 @@ typedef struct s_shell
 	int				err;
 	int				cmd_count;
 	char			*oldpwd;
+	int				fd_list[MAX_FD];
+	int				fd_count;
 }					t_shell;
 
 typedef struct s_syn
@@ -413,4 +416,10 @@ bool			ft_is_newline_flag(const char *value);
 //redir_pipe.c
 int				ft_config_heredoc_fd_pipe(t_token *token, int index, t_cmd *cmd,
 					t_shell *shell, pid_t *pid, int **pipe_fd);
+
+//fd_utils.c
+void			ft_add_fd(t_shell *shell, int fd);
+void			ft_close_all_fds(t_shell *shell);
+void			ft_init_fd_list(t_shell *shell);
+
 #endif

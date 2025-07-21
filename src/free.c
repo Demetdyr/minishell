@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:21 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 13:23:53 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:16:30 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_free_shell(t_shell **shell)
 	i = 0;
 	if (!shell || !*shell)
 		return ;
+	ft_close_all_fds(*shell);
 	if ((*shell)->env)
 	{
 		while ((*shell)->env[i])

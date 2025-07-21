@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:51 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 11:03:20 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:08:37 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,7 @@ int	ft_check_redll_parent(int fd[2], t_cmd *cmd, int index, int *status)
 	if (cmd->heredoc_fd[index] != NO_FD)
 		close(cmd->heredoc_fd[index]);
 	cmd->heredoc_fd[index] = fd[0];
+	if (cmd->heredoc_fd[index] != -1)
+		ft_add_fd(cmd->shell, cmd->heredoc_fd[index]);
 	return (SUCCESS);
 }

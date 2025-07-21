@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 13:45:29 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:45:57 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,6 +389,7 @@ void			ft_free_export_only(t_shell **shell);
 int				ft_add_export_only(t_shell *shell, char *key);
 void			ft_print_export_env(t_shell *shell, t_cmd *cmd);
 char			**ft_str_lst_add_export_only(char *value);
+void			ft_set_shlvl(t_shell *shell);
 
 //exec_unset.c
 int				ft_exec_unset(t_token *token, t_shell *shell);

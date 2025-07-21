@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 13:23:26 by mehcakir          #+#    #+#             */
-/*   Updated: 2025/07/21 13:45:19 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:44:45 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,33 @@ char	**ft_str_lst_add_export_only(char *value)
 	new_lst[0] = value;
 	new_lst[1] = NULL;
 	return (new_lst);
+}
+
+void	ft_set_shlvl(t_shell *shell)
+{
+	int		i;
+	char	*new_shlvl;
+	int		shlvl;
+	char	*itoa_str;
+
+	if (!shell || !shell->env)
+		return ;
+	i = 0;
+	while (shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], "SHLVL=", 6) == 0)
+		{
+			shlvl = ft_atoi(shell->env[i] + 6) + 1;
+			if (shell->env[i])
+				free(shell->env[i]);
+			itoa_str = ft_itoa(shlvl);
+			new_shlvl = ft_strjoin("SHLVL=", itoa_str, false);
+			free (itoa_str);
+			if (!new_shlvl)
+				return ;
+			shell->env[i] = new_shlvl;
+			break ;
+		}
+		i++;
+	}
 }

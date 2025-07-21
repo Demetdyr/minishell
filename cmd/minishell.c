@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:13 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 02:08:56 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:20:29 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static t_shell	*ft_shell_init(char **argv, char **env)
 	shell->env = ft_env_copy(env);
 	if (!shell->env)
 		return (ft_free_shell(&shell), NULL);
+	ft_set_shlvl(shell);
 	shell->export_only = NULL;
 	shell->argv = argv;
 	shell->prompt = NULL;

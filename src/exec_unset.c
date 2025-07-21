@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:07 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:08 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/21 13:08:07 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,33 @@ static bool	ft_confirm_unset(t_token *token, t_shell *shell)
 	return (true);
 }
 
+static char	**ft_lst_remove_export_only(char **str_lst, char *key)
+{
+	int		i;
+	int		j;
+	char	**new_lst;
+
+	if (!str_lst || !key)
+		return (str_lst);
+	new_lst = ft_allocate_str_lst(str_lst);
+	i = 0;
+	j = 0;
+	while (str_lst[i])
+	{
+		if (str_lst[i] && key && ft_strcmp(str_lst[i], key) == 0)
+		{
+			free(str_lst[i]);
+			str_lst[i] = NULL;
+		}
+		else
+			new_lst[j++] = str_lst[i];
+		i++;
+	}
+	new_lst[j] = NULL;
+	free(str_lst);
+	return (new_lst);
+}
+
 int	ft_exec_unset(t_token *token, t_shell *shell)
 {
 	if (!token || !shell)
@@ -92,6 +119,8 @@ int	ft_exec_unset(t_token *token, t_shell *shell)
 		if (ft_confirm_unset(token, shell) == false)
 			return (FAILURE);
 		shell->env = ft_lst_remove_env(shell->env, token->value);
+		shell->export_only = ft_lst_remove_export_only(shell->export_only,
+				token->value);
 		if (!shell->env)
 			return (FAILURE);
 		token = token->next;

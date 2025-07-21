@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:21 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/17 18:19:59 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:23:53 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_free_shell(t_shell **shell)
 		free((*shell)->env);
 		(*shell)->env = NULL;
 	}
+	ft_free_export_only(shell);
 	free((*shell)->prompt);
 	(*shell)->prompt = NULL;
 	if ((*shell)->oldpwd)

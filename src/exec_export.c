@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:02 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 22:39:25 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:25:23 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,19 @@ static void	ft_sort_env(t_shell *shell, int len)
 static int	ft_print_export(t_shell *shell, t_cmd *cmd)
 {
 	int		i;
-	char	*eq;
-	int		key_len;
 
-	if (!shell || !shell->env)
+	if (!shell)
 		return (FAILURE);
+	ft_print_export_env(shell, cmd);
 	i = 0;
-	while (shell->env[i])
+	if (shell->export_only)
 	{
-		fdprint(cmd->bout, "declare -x ");
-		eq = ft_strchr(shell->env[i], '=');
-		if (eq)
+		while (shell->export_only[i])
 		{
-			key_len = eq - shell->env[i];
-			fdprintn(cmd->bout, shell->env[i], key_len);
-			fdprint(cmd->bout, "=\"");
-			fdprint(cmd->bout, eq + 1);
-			fdprintln(cmd->bout, "\"");
+			fdprint(cmd->bout, "declare -x ");
+			fdprintln(cmd->bout, shell->export_only[i]);
+			i++;
 		}
-		else
-			fdprintln(cmd->bout, shell->env[i]);
-		i++;
 	}
 	return (SUCCESS);
 }
@@ -102,6 +94,7 @@ static int	ft_config_export(t_token *token, t_shell *shell)
 	{
 		if (!ft_strchr(token->value, '='))
 		{
+			ft_add_export_only(shell, token->value);
 			token = token->next;
 			continue ;
 		}

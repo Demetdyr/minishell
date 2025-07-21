@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:10:17 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:10:18 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/21 13:41:59 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ int	ft_strcmp(char *s1, char *s2)
 
 char	**ft_str_lst_add(char **lst, char *value)
 {
-	char	**new_lst;
 	int		i;
-	int		len;
+	char	**new_lst;
 
-	if (!lst || !value)
-		return (NULL);
+	if (!value)
+		return (lst);
+	if (!lst)
+		return (ft_str_lst_add_export_only(value));
 	i = 0;
 	while (lst[i])
 		i++;
-	len = i;
-	new_lst = (char **)malloc(sizeof(char *) * (len + 2));
+	new_lst = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new_lst)
 		return (NULL);
 	i = 0;

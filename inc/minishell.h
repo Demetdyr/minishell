@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 01:03:44 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:45:29 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct s_shell
 	int				status;
 	char			**argv;
 	char			**env;
+	char			**export_only;
 	t_token			**token_lst;
 	char			*prompt;
 	int				err;
@@ -382,6 +383,12 @@ int				ft_exec_cd(t_token *token, t_shell *shell);
 
 //exec_export.c
 int				ft_exec_export(t_token *token, t_shell *shell, t_cmd *cmd);
+
+//exec_export_utils.c
+void			ft_free_export_only(t_shell **shell);
+int				ft_add_export_only(t_shell *shell, char *key);
+void			ft_print_export_env(t_shell *shell, t_cmd *cmd);
+char			**ft_str_lst_add_export_only(char *value);
 
 //exec_unset.c
 int				ft_exec_unset(t_token *token, t_shell *shell);

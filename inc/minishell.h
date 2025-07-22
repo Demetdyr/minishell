@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 17:15:59 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:23:18 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,7 @@ void			ft_heredoc_child_handler(char *str, int empty_input,
 					char *delimiter, int fd[2]);
 
 //pipe.c
-int				**ft_init_pipe(int pipe_count);
+int				**ft_init_pipe(int pipe_count, t_shell *shell);
 int				**ft_free_pipe(int **pipe_fd, int pipe_count);
 
 //executer_multiple.c

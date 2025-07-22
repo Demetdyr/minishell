@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:39 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:40 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/23 00:22:26 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	**ft_free_pipe(int **pipe_fd, int pipe_count)
 	return (NULL);
 }
 
-int	**ft_init_pipe(int pipe_count)
+int	**ft_init_pipe(int pipe_count, t_shell *shell)
 {
 	int	**pipe_fd;
 	int	i;
@@ -50,6 +50,8 @@ int	**ft_init_pipe(int pipe_count)
 	{
 		if (pipe(pipe_fd[i]) == -1)
 			return (ft_free_pipe(pipe_fd, i), NULL);
+		ft_add_fd(shell, pipe_fd[i][0]);
+		ft_add_fd(shell, pipe_fd[i][1]);
 		i++;
 	}
 	return (pipe_fd);

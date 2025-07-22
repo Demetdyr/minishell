@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:16 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/20 21:59:49 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 00:22:46 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	ft_prompt_exec(t_shell *shell)
 		return (FAILURE);
 	if (token_count == 1)
 		return (ft_exec_one_cmd(shell->token_lst[0], shell, &cmd));
-	pipe_fd = ft_init_pipe(token_count - 1);
+	pipe_fd = ft_init_pipe(token_count - 1, shell);
 	if (!pipe_fd)
 		return (free(cmd.heredoc_fd), FAILURE);
 	if (ft_init_pipeline(pipe_fd, shell, &cmd, token_count) != SUCCESS)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:45 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:46 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/22 19:01:08 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,41 @@ char	*ft_get_dollar_value(char *key, t_shell *shell)
 	return (value);
 }
 
+static void	ft_check_dollar_case(char **value, int i, t_shell *shell,
+	int *start)
+{
+	*start = i + 1;
+	if ((*value)[i + 1] == '0' || (*value)[i + 1] == '?')
+		i = ft_special_dollar_case(value, *start, i, shell);
+	else if ((*value)[i + 1] > '0' && (*value)[i + 1] <= '9')
+		ft_number_dollar_case(value, *start, i + 1);
+	else
+		i = ft_normal_dollar_case(value, *start, i + 1, shell);
+}
+
 void	ft_get_dollar_key_values(char **value, t_shell *shell, bool *has_dollar)
 {
 	int	flag_single_quote;
+	int	flag_double_quote;
 	int	i;
 	int	start;
 
+	flag_single_quote = 0;
+	flag_double_quote = 0;
 	if (!value || !*value)
 		return ;
 	i = 0;
-	flag_single_quote = 0;
 	while ((*value)[i])
 	{
-		flag_single_quote = ft_get_in_quote(flag_single_quote, (*value)[i]);
-		if (flag_single_quote != '\'' && ft_is_valid_dollar(*value, i))
+		if ((*value)[i] == '\'' && flag_double_quote == 0)
+			flag_single_quote = !flag_single_quote;
+		else if ((*value)[i] == '"' && flag_single_quote == 0)
+			flag_double_quote = !flag_double_quote;
+		if (flag_double_quote == 1 && flag_single_quote == 0
+			&& ft_is_valid_dollar(*value, i))
 		{
 			*has_dollar = true;
-			start = i + 1;
-			if ((*value)[i + 1] == '0' || (*value)[i + 1] == '?')
-				i = ft_special_dollar_case(value, start, i, shell);
-			else if ((*value)[i + 1] > '0' && (*value)[i + 1] <= '9')
-				ft_number_dollar_case(value, start, i + 1);
-			else
-				i = ft_normal_dollar_case(value, start, i + 1, shell);
+			ft_check_dollar_case(value, i, shell, &start);
 		}
 		else
 			i++;

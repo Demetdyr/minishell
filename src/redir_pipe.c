@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 21:55:18 by mehcakir          #+#    #+#             */
-/*   Updated: 2025/07/20 22:15:49 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:27:09 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_free_pipe_heredoc(pid_t *pid, int **pipe_fd, t_shell *shell)
 }
 
 static int	ft_check_redll_pipe(t_token *token, int index, t_cmd *cmd,
-				t_shell *shell, pid_t *pid, int **pipe_fd)
+	t_pipe pipes)
 {
 	char	*str;
 	int		fd[2];
@@ -44,8 +44,9 @@ static int	ft_check_redll_pipe(t_token *token, int index, t_cmd *cmd,
 	if (pid_temp == -1)
 		return (close(fd[0]), close(fd[1]), FAILURE);
 	else if (pid_temp == 0)
-		return (ft_free_pipe_heredoc(pid, pipe_fd, shell), ft_free_cmd(cmd),
-			ft_check_redll_child(fd, str, iter, shell), FAILURE);
+		return (ft_free_pipe_heredoc(pipes.pid, pipes.pipe_fd, cmd->shell),
+			ft_free_cmd(cmd), ft_check_redll_child(fd, str, iter, cmd->shell),
+			FAILURE);
 	else
 	{
 		close(fd[1]);
@@ -56,7 +57,7 @@ static int	ft_check_redll_pipe(t_token *token, int index, t_cmd *cmd,
 }
 
 int	ft_config_heredoc_fd_pipe(t_token *token, int index, t_cmd *cmd,
-		t_shell *shell, pid_t *pid, int **pipe_fd)
+	t_pipe pipe)
 {
 	int	ret;
 
@@ -66,12 +67,12 @@ int	ft_config_heredoc_fd_pipe(t_token *token, int index, t_cmd *cmd,
 	{
 		if (token->type == RED_LL)
 		{
-			ret = ft_check_redll_pipe(token, index, cmd, shell, pid, pipe_fd);
+			ret = ft_check_redll_pipe(token, index, cmd, pipe);
 			if (ret != SUCCESS)
 			{
 				if (ret > 128)
 				{
-					shell->status = ret;
+					cmd->shell->status = ret;
 					return (FAILURE);
 				}
 				return (FAILURE);

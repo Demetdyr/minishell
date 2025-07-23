@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:45 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/22 19:01:08 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:19:16 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void	ft_get_dollar_key_values(char **value, t_shell *shell, bool *has_dollar)
 			flag_single_quote = !flag_single_quote;
 		else if ((*value)[i] == '"' && flag_single_quote == 0)
 			flag_double_quote = !flag_double_quote;
-		if (flag_double_quote == 1 && flag_single_quote == 0
-			&& ft_is_valid_dollar(*value, i))
+		if (flag_single_quote == 0 && ft_is_valid_dollar(*value, i))
 		{
 			*has_dollar = true;
 			ft_check_dollar_case(value, i, shell, &start);

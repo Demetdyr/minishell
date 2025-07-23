@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:00 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 01:26:10 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:25:30 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static void	ft_free_pipe_exit(t_pipe pipe, t_shell *shell)
+{
+	int	pipe_count;
+
+	if (pipe.pid)
+		free(pipe.pid);
+	if (pipe.pipe_fd)
+	{
+		pipe_count = ft_count_tokens(shell->token_lst) - 1;
+		ft_free_pipe(pipe.pipe_fd, pipe_count);
+	}
+}
 
 static void	ft_free_cmd_exit(t_cmd *cmd)
 {
@@ -45,7 +58,14 @@ static bool	ft_is_digit_exit(const char *c)
 	return (true);
 }
 
-int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
+static void	ft_free_all_exit(t_shell *shell, t_cmd *cmd, t_pipe pipe)
+{
+	ft_free_pipe_exit(pipe, shell);
+	ft_free_shell(&shell);
+	ft_free_cmd_exit(cmd);
+}
+
+int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd, t_pipe pipe)
 {
 	int	err_num;
 
@@ -57,18 +77,19 @@ int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd)
 		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next && !ft_is_digit_exit(token->next->value))
 		return (ft_print_err_exec(token, shell, 2, ERR_NOT_NUMERIC),
-			ft_free_shell(&shell), ft_free_cmd_exit(cmd), exit(2), FAILURE);
+			ft_free_all_exit(shell, cmd, pipe), exit(2), FAILURE);
 	if (token->next)
 	{
 		err_num = ft_atoi(token->next->value);
 		if (err_num < 0)
 			return (ft_print_err_exec(token, shell, (int)(256
-					+ (err_num % 256)), ERR_OTHER), ft_free_shell(&shell),
-						ft_free_cmd_exit(cmd), exit(err_num), FAILURE);
+					+ (err_num % 256)), ERR_OTHER),
+						ft_free_all_exit(shell, cmd, pipe),
+							exit(err_num), FAILURE);
 		return (ft_print_err_exec(token, shell, (int)(err_num % 256),
-			ERR_OTHER), ft_free_shell(&shell), ft_free_cmd_exit(cmd),
-					exit(err_num), FAILURE);
+			ERR_OTHER), ft_free_all_exit(shell, cmd, pipe),
+				exit(err_num), FAILURE);
 	}
 	cmd->cmd = NULL;
-	return (ft_free_shell(&shell), ft_free_cmd(cmd), exit(err_num), SUCCESS);
+	return (ft_free_all_exit(shell, cmd, pipe), exit(err_num), SUCCESS);
 }

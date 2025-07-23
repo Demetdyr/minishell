@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:30 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:31 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:11:48 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ void	ft_check_build_fd(t_cmd *cmd, int **pipe_fd)
 		cmd->bin = STDIN_FILENO;
 }
 
-int	ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd, int **pipe_fd)
+int	ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd, t_pipe pipe)
 {
-	ft_check_build_fd(cmd, pipe_fd);
+	ft_check_build_fd(cmd, pipe.pipe_fd);
 	if (ft_config_built_path_arg(token, shell, cmd) != SUCCESS)
 		return (FAILURE);
 	if (ft_strncmp(token->value, "cd", 3) == 0)
@@ -120,6 +120,6 @@ int	ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd, int **pipe_fd)
 	else if (ft_strncmp(token->value, "echo", 5) == 0)
 		return (ft_exec_echo(token, shell, cmd));
 	else if (ft_strncmp(token->value, "exit", 5) == 0)
-		return (ft_exec_exit(token, shell, cmd));
+		return (ft_exec_exit(token, shell, cmd, pipe));
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:10:10 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/09 18:10:11 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:11:15 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	ft_count_tokens_arg(t_token *token)
 }
 
 static int	ft_token_set_built(t_token *token, t_shell *shell, t_cmd *cmd,
-	int **pipe_fd)
+	t_pipe pipe)
 {
-	if (ft_exec_built(token, shell, cmd, pipe_fd) != SUCCESS)
+	if (ft_exec_built(token, shell, cmd, pipe) != SUCCESS)
 	{
 		token->value = NULL;
 		return (ft_free_cmd(cmd), FAILURE);
@@ -62,7 +62,7 @@ static int	ft_token_set_built(t_token *token, t_shell *shell, t_cmd *cmd,
 }
 
 int	ft_config_cmd_arg_path(t_token *token, t_shell *shell, t_cmd *cmd,
-	int **pipe_fd)
+	t_pipe pipe)
 {
 	char	*path;
 	char	**argv;
@@ -70,7 +70,7 @@ int	ft_config_cmd_arg_path(t_token *token, t_shell *shell, t_cmd *cmd,
 	if (!token || !shell || !cmd)
 		return (FAILURE);
 	if (ft_is_built(token))
-		return (ft_token_set_built(token, shell, cmd, pipe_fd));
+		return (ft_token_set_built(token, shell, cmd, pipe));
 	path = ft_get_path(token, shell);
 	if (!path)
 	{

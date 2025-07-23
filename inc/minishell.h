@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/23 00:23:18 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:22:00 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,12 @@ typedef struct s_token_sep_md
 	int				i;
 }					t_token_sep_md;
 
+typedef struct s_pipe
+{
+	int				**pipe_fd;
+	pid_t			*pid;
+}					t_pipe;
+
 typedef struct s_shell
 {
 	int				status;
@@ -196,7 +202,7 @@ void			ft_free_path(char **path);
 void			ft_free_env(char **copy_env, int i);
 void			ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status);
 void			ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd,
-					pid_t *pid, int **pipe_fd);
+					t_pipe pipe);
 
 //free.c
 void			ft_free_token(t_token **token);
@@ -289,7 +295,7 @@ t_token			**ft_separate_by_pipe(t_token *token);
 //token_utils2.c
 int				ft_count_tokens(t_token **token_lst);
 int				ft_config_cmd_arg_path(t_token *token, t_shell *shell,
-					t_cmd *cmd, int **pipe_fd);
+					t_cmd *cmd, t_pipe pipe);
 int				ft_count_tokens_arg(t_token *token);
 
 //token.c
@@ -347,7 +353,7 @@ int				**ft_init_pipe(int pipe_count, t_shell *shell);
 int				**ft_free_pipe(int **pipe_fd, int pipe_count);
 
 //executer_multiple.c
-void			ft_check_childs(t_cmd *cmd, int **pipe_fd, int i, pid_t *pid);
+void			ft_check_childs(t_cmd *cmd, t_pipe pipe, int i);
 
 //path.c
 char			*ft_get_path(t_token *token, t_shell *shell);
@@ -355,8 +361,9 @@ char			*ft_get_path_str(char **env);
 char			*ft_get_exact_path(t_token *token, t_shell *shell);
 
 //built.c
-int				ft_exec_built(t_token *token, t_shell *shell, t_cmd *cmd,
-					int **pipe_fd);
+int				ft_exec_built(t_token *token, t_shell *shell,
+					t_cmd *cmd, t_pipe pipe);
+
 void			ft_check_build_fd(t_cmd *cmd, int **pipe_fd);
 
 //err_print.c
@@ -407,15 +414,16 @@ int				ft_config_value_env(t_shell *shell, char *value);
 int				ft_exec_pwd(t_shell *shell, t_cmd *cmd);
 
 //exec_exit.c
-int				ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd);
+int				ft_exec_exit(t_token *token, t_shell *shell,
+					t_cmd *cmd, t_pipe pipe);
 
 //exec_echo_util.c
 bool			ft_is_valid_arg(t_token *token);
 bool			ft_is_newline_flag(const char *value);
 
 //redir_pipe.c
-int				ft_config_heredoc_fd_pipe(t_token *token, int index, t_cmd *cmd,
-					t_shell *shell, pid_t *pid, int **pipe_fd);
+int				ft_config_heredoc_fd_pipe(t_token *token, int index,
+					t_cmd *cmd, t_pipe pipe);
 
 //fd_utils.c
 void			ft_add_fd(t_shell *shell, int fd);

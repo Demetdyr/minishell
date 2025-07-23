@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:18 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/19 21:19:33 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:02:45 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,17 @@ void	ft_free_shell_cmd_exit(t_shell *shell, t_cmd *cmd, int status)
 	exit(status);
 }
 
-void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, pid_t *pid,
-		int **pipe_fd)
+void	ft_free_shell_cmd_exit_status(t_shell *shell, t_cmd *cmd, t_pipe pipe)
 {
 	int	status;
 	int	pipe_count;
 
-	if (pid)
-		free(pid);
-	if (pipe_fd)
+	if (pipe.pid)
+		free(pipe.pid);
+	if (pipe.pipe_fd)
 	{
 		pipe_count = ft_count_tokens(shell->token_lst) - 1;
-		ft_free_pipe(pipe_fd, pipe_count);
+		ft_free_pipe(pipe.pipe_fd, pipe_count);
 	}
 	ft_free_cmd(cmd);
 	status = shell->status;

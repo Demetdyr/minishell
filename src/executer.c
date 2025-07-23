@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:16 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/23 00:22:46 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:59:21 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static void	ft_close_childs(int **pipe_fd, int count)
 	}
 }
 
-static int	ft_pipline_init_childs(int **pipe_fd, t_shell *shell, t_cmd *cmd,
-	pid_t *pid)
+static int	ft_pipline_init_childs(t_pipe pipe, t_shell *shell, t_cmd *cmd)
 {
 	int		i;
 	int		count;
@@ -40,18 +39,18 @@ static int	ft_pipline_init_childs(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 	while (i < count)
 	{
 		if (ft_config_heredoc_fd_pipe(shell->token_lst[i],
-				i, cmd, shell, pid, pipe_fd) != SUCCESS)
+				i, cmd, pipe) != SUCCESS)
 			return (FAILURE);
 		g_sig = IN_CMD;
 		pid_temp = fork();
 		if (pid_temp == -1)
-			return (free(pid), FAILURE);
-		pid[i] = pid_temp;
+			return (free(pipe.pid), FAILURE);
+		pipe.pid[i] = pid_temp;
 		if (pid_temp == 0)
-			ft_check_childs(cmd, pipe_fd, i, pid);
+			ft_check_childs(cmd, pipe, i);
 		i++;
 	}
-	ft_close_childs(pipe_fd, count);
+	ft_close_childs(pipe.pipe_fd, count);
 	g_sig = AFTER_CMD;
 	return (SUCCESS);
 }
@@ -60,6 +59,7 @@ static int	ft_init_pipeline(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 	int count)
 {
 	pid_t	*pid;
+	t_pipe	pipe;
 	int		i;
 
 	if (!pipe_fd || count < 0)
@@ -67,7 +67,9 @@ static int	ft_init_pipeline(int **pipe_fd, t_shell *shell, t_cmd *cmd,
 	pid = (pid_t *)malloc(sizeof(pid_t) * (count + 1));
 	if (!pid)
 		return (FAILURE);
-	if (ft_pipline_init_childs(pipe_fd, shell, cmd, pid) != SUCCESS)
+	pipe.pipe_fd = pipe_fd;
+	pipe.pid = pid;
+	if (ft_pipline_init_childs(pipe, shell, cmd) != SUCCESS)
 		return (free(pid), FAILURE);
 	i = 0;
 	while (i < count)

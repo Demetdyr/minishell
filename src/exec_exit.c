@@ -6,7 +6,7 @@
 /*   By: dduyar <dduyar@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:09:00 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/23 15:25:30 by dduyar           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:36:18 by dduyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ int	ft_exec_exit(t_token *token, t_shell *shell, t_cmd *cmd, t_pipe pipe)
 	if (!token)
 		ft_print_err_general("Invalid arguments\n", 2);
 	fdprintln(2, "exit");
-	if (token && token->next && token->next->next)
-		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next && !ft_is_digit_exit(token->next->value))
 		return (ft_print_err_exec(token, shell, 2, ERR_NOT_NUMERIC),
 			ft_free_all_exit(shell, cmd, pipe), exit(2), FAILURE);
+	if (token && token->next && token->next->next)
+		return (ft_print_err_exec(token, shell, 1, ERR_MANY_ARGS));
 	if (token->next)
 	{
 		err_num = ft_atoi(token->next->value);

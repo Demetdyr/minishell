@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehcakir <mehcakir@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:13 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/21 17:09:40 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:02:23 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,15 @@ static void	ft_routine(t_shell *shell)
 {
 	while (1)
 	{
-		g_sig = 0;
+			g_sig = 0;
 		shell->prompt = readline("minishell> ");
 		if (!shell->prompt)
 		{
 			fdprintln(1, "exit");
 			break ;
 		}
-		add_history(shell->prompt);
+		if (!ft_is_str_all_space(shell->prompt))
+			add_history(shell->prompt);
 		if (!shell->prompt)
 			continue ;
 		shell->err = ft_syntax_check(shell);

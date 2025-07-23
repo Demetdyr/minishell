@@ -6,7 +6,7 @@
 /*   By: mehcakir <mehcakir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:08:13 by dduyar            #+#    #+#             */
-/*   Updated: 2025/07/23 16:02:23 by mehcakir         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:04:28 by mehcakir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	ft_routine(t_shell *shell)
 {
 	while (1)
 	{
-			g_sig = 0;
+		g_sig = 0;
 		shell->prompt = readline("minishell> ");
 		if (!shell->prompt)
 		{
